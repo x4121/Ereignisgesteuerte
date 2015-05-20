@@ -1,0 +1,41 @@
+Dependencies for Project 'bomb2', Target 'bomb2': (DO NOT MODIFY !)
+F (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\startup\startup.s)(0x55128255)(--cpu ARM7TDMI -g --apcs=interwork --pd "__MICROLIB SETA 1"  --predefine "REMAP SETL {TRUE}"  --predefine "RAM_MODE SETL {TRUE}"-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips--list .\obj\startup.lst --xref -o .\obj\startup.o --depend .\obj\startup.d)
+F (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\startup\swi_interrup.s)(0x55128255)(--cpu ARM7TDMI -g --apcs=interwork --pd "__MICROLIB SETA 1"  --predefine "REMAP SETL {TRUE}"  --predefine "RAM_MODE SETL {TRUE}"-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips--list .\obj\swi_interrup.lst --xref -o .\obj\swi_interrup.o --depend .\obj\swi_interrup.d)
+F (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\retarget\Retarget.c)(0x55128255)(-c --cpu ARM7TDMI -D__MICROLIB -g -O0 --apcs=interwork -I..\bombqmbsp -I..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include -D__MICROLIB-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-DBSP_KEYBOARD-o .\obj\retarget.o --omf_browse .\obj\retarget.crf --depend .\obj\retarget.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53469CB4)
+I (C:\Keil_v5\ARM\ARMCC\include\rt_misc.h)(0x53469CB4)
+F (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\drivers\LCD_4bit.c)(0x55128255)(-c --cpu ARM7TDMI -D__MICROLIB -g -O0 --apcs=interwork -I..\bombqmbsp -I..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include -D__MICROLIB-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-DBSP_KEYBOARD-o .\obj\lcd_4bit.o --omf_browse .\obj\lcd_4bit.crf --depend .\obj\lcd_4bit.d)
+I (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include\LPC23xx.H)(0x55128255)
+F (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\drivers\QEP_timer.c)(0x55128255)(-c --cpu ARM7TDMI -D__MICROLIB -g -O0 --apcs=interwork -I..\bombqmbsp -I..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include -D__MICROLIB-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-DBSP_KEYBOARD-o .\obj\qep_timer.o --omf_browse .\obj\qep_timer.crf --depend .\obj\qep_timer.d)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qp_port.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil\qf_port.h)(0x5512822E)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil\qep_port.h)(0x5512822E)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x53469CB4)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x53469CB4)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qep.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qvanilla.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qequeue.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qmpool.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qpset.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qf.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qassert.h)(0x5512822B)
+I (..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include\qs_dummy.h)(0x5512822B)
+I (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include\lpc23xx.h)(0x55128255)
+F (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\drivers\Serial.c)(0x5524F662)(-c --cpu ARM7TDMI -D__MICROLIB -g -O0 --apcs=interwork -I..\bombqmbsp -I..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include -D__MICROLIB-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-DBSP_KEYBOARD-o .\obj\serial.o --omf_browse .\obj\serial.crf --depend .\obj\serial.d)
+I (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include\LPC23xx.H)(0x55128255)
+F (.\src\bomb2.c)(0x553742B1)(-c --cpu ARM7TDMI -D__MICROLIB -g -O0 --apcs=interwork -I..\bombqmbsp -I..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include -D__MICROLIB-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-DBSP_KEYBOARD-o .\obj\bomb2.o --omf_browse .\obj\bomb2.crf --depend .\obj\bomb2.d)
+I (..\bombqmbsp\bombqmbsp.h)(0x5512824B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x53469CB4)
+I (src\statetbl.h)(0x553742B1)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53469CB4)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x53469CB4)
+F (.\src\statetbl.c)(0x553742B1)(-c --cpu ARM7TDMI -D__MICROLIB -g -O0 --apcs=interwork -I..\bombqmbsp -I..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include -D__MICROLIB-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-DBSP_KEYBOARD-o .\obj\statetbl.o --omf_browse .\obj\statetbl.crf --depend .\obj\statetbl.d)
+I (..\bombqmbsp\bombqmbsp.h)(0x5512824B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x53469CB4)
+I (src\statetbl.h)(0x553742B1)
+F (..\bombqmbsp\bombqmbsp.c)(0x5524C7CF)(-c --cpu ARM7TDMI -D__MICROLIB -g -O0 --apcs=interwork -I..\bombqmbsp -I..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil -I..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include -D__MICROLIB-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-DBSP_KEYBOARD -DBOMB -DBSP_KEYBOARD-o .\obj\bombqmbsp.o --omf_browse .\obj\bombqmbsp.crf --depend .\obj\bombqmbsp.d)
+I (..\bombqmbsp\bombqmbsp.h)(0x5512824B)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x53469CB4)
+I (..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include\LCD.h)(0x55128255)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53469CB4)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x53469CB4)

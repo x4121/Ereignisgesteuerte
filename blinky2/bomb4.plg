@@ -1,0 +1,124 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\EventDrivenSystems\Keil\arm7tdmi_sa\bomb4\bomb4.uvproj
+Project File Date:  10/21/2011
+
+<h2>Output:</h2>
+assembling startup.s...
+..\..\mcb2300\startup\startup.s - 0 Error(s), 0 Warning(s).
+compiling Retarget.c...
+..\..\mcb2300\retarget\Retarget.c(27): warning:  #223-D: function "send_char" declared implicitly
+..\..\mcb2300\retarget\Retarget.c:     return (send_char(ch));
+..\..\mcb2300\retarget\Retarget.c:             ^
+..\..\mcb2300\retarget\Retarget.c(33): warning:  #223-D: function "getkey0" declared implicitly
+..\..\mcb2300\retarget\Retarget.c:   return (getkey0()) ;
+..\..\mcb2300\retarget\Retarget.c:           ^
+..\..\mcb2300\retarget\Retarget.c(39): warning:  #223-D: function "getkey0" declared implicitly
+..\..\mcb2300\retarget\Retarget.c:      return(getkey0());        /* in serial.c */
+..\..\mcb2300\retarget\Retarget.c:             ^
+..\..\mcb2300\retarget\Retarget.c(51): warning:  #223-D: function "send_char" declared implicitly
+..\..\mcb2300\retarget\Retarget.c:     send_char(ch);
+..\..\mcb2300\retarget\Retarget.c:     ^
+..\..\mcb2300\retarget\Retarget.c: ..\..\mcb2300\retarget\Retarget.c: 4 warnings, 0 errors
+..\..\mcb2300\retarget\Retarget.c - 0 Error(s), 4 Warning(s).
+compiling QM_timer.c...
+..\..\mcb2300\drivers\QM_timer.c - 0 Error(s), 0 Warning(s).
+compiling Serial.c...
+..\..\mcb2300\drivers\Serial.c - 0 Error(s), 0 Warning(s).
+compiling LCD_4bit.c...
+..\..\mcb2300\drivers\LCD_4bit.c - 0 Error(s), 0 Warning(s).
+compiling bomb2.c...
+..\bomb2\src\bomb2.c(177): warning:  #223-D: function "kbhit" declared implicitly
+..\bomb2\src\bomb2.c:           if (kbhit()) {
+..\bomb2\src\bomb2.c:               ^
+..\bomb2\src\bomb2.c(183): warning:  #223-D: function "getch" declared implicitly
+..\bomb2\src\bomb2.c:               switch (getch()) {
+..\bomb2\src\bomb2.c:                       ^
+..\bomb2\src\bomb2.c(202): warning:  #223-D: function "_sys_exit" declared implicitly
+..\bomb2\src\bomb2.c:                       _exit(0);
+..\bomb2\src\bomb2.c:                       ^
+..\bomb2\src\bomb2.c(212): warning:  #111-D: statement is unreachable
+..\bomb2\src\bomb2.c:       return 0;
+..\bomb2\src\bomb2.c:       ^
+..\bomb2\src\bomb2.c: ..\bomb2\src\bomb2.c: 4 warnings, 0 errors
+..\bomb2\src\bomb2.c - 0 Error(s), 4 Warning(s).
+Build target 'bomb4'
+compiling bomb2main.c...
+..\bomb2\src\bomb2main.c(93): warning:  #223-D: function "bomb2main" declared implicitly
+..\bomb2\src\bomb2main.c:     bomb2main();
+..\bomb2\src\bomb2main.c:     ^
+..\bomb2\src\bomb2main.c(73): warning:  #177-D: variable "i" was declared but never referenced
+..\bomb2\src\bomb2main.c:     int i, ch;
+..\bomb2\src\bomb2main.c:         ^
+..\bomb2\src\bomb2main.c(73): warning:  #177-D: variable "ch" was declared but never referenced
+..\bomb2\src\bomb2main.c:     int i, ch;
+..\bomb2\src\bomb2main.c:            ^
+..\bomb2\src\bomb2main.c(74): warning:  #177-D: variable "AD_old" was declared but never referenced
+..\bomb2\src\bomb2main.c:     short AD_old, AD_value, AD_print;
+..\bomb2\src\bomb2main.c:           ^
+..\bomb2\src\bomb2main.c(74): warning:  #177-D: variable "AD_value" was declared but never referenced
+..\bomb2\src\bomb2main.c:     short AD_old, AD_value, AD_print;
+..\bomb2\src\bomb2main.c:                   ^
+..\bomb2\src\bomb2main.c(74): warning:  #177-D: variable "AD_print" was declared but never referenced
+..\bomb2\src\bomb2main.c:     short AD_old, AD_value, AD_print;
+..\bomb2\src\bomb2main.c:                             ^
+..\bomb2\src\bomb2main.c: ..\bomb2\src\bomb2main.c: 6 warnings, 0 errors
+compiling statetbl.c...
+compiling bsp.c...
+..\qmbsp\bsp.c(20): warning:  #223-D: function "_sys_exit" declared implicitly
+..\qmbsp\bsp.c:       _sys_exit(0);
+..\qmbsp\bsp.c:       ^
+..\qmbsp\bsp.c(27): warning:  #223-D: function "_sys_exit" declared implicitly
+..\qmbsp\bsp.c:       _sys_exit(-1);
+..\qmbsp\bsp.c:       ^
+..\qmbsp\bsp.c: ..\qmbsp\bsp.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=4362 RO-data=266 RW-data=20 ZI-data=1308  
+".\obj\bomb4.axf" - 0 Error(s), 8 Warning(s).
+compiling bomb4main.c...
+src\bomb4main.c(93): warning:  #223-D: function "bomb4main" declared implicitly
+src\bomb4main.c:     bomb4main();
+src\bomb4main.c:     ^
+src\bomb4main.c(73): warning:  #177-D: variable "i" was declared but never referenced
+src\bomb4main.c:     int i, ch;
+src\bomb4main.c:         ^
+src\bomb4main.c(73): warning:  #177-D: variable "ch" was declared but never referenced
+src\bomb4main.c:     int i, ch;
+src\bomb4main.c:            ^
+src\bomb4main.c(74): warning:  #177-D: variable "AD_old" was declared but never referenced
+src\bomb4main.c:     short AD_old, AD_value, AD_print;
+src\bomb4main.c:           ^
+src\bomb4main.c(74): warning:  #177-D: variable "AD_value" was declared but never referenced
+src\bomb4main.c:     short AD_old, AD_value, AD_print;
+src\bomb4main.c:                   ^
+src\bomb4main.c(74): warning:  #177-D: variable "AD_print" was declared but never referenced
+src\bomb4main.c:     short AD_old, AD_value, AD_print;
+src\bomb4main.c:                             ^
+src\bomb4main.c: src\bomb4main.c: 6 warnings, 0 errors
+src\bomb4main.c - 0 Error(s), 6 Warning(s).
+compiling bomb4main.c...
+src\bomb4main.c(93): warning:  #223-D: function "bomb4main" declared implicitly
+src\bomb4main.c:     bomb4main();
+src\bomb4main.c:     ^
+src\bomb4main.c(73): warning:  #177-D: variable "i" was declared but never referenced
+src\bomb4main.c:     int i, ch;
+src\bomb4main.c:         ^
+src\bomb4main.c(73): warning:  #177-D: variable "ch" was declared but never referenced
+src\bomb4main.c:     int i, ch;
+src\bomb4main.c:            ^
+src\bomb4main.c(74): warning:  #177-D: variable "AD_old" was declared but never referenced
+src\bomb4main.c:     short AD_old, AD_value, AD_print;
+src\bomb4main.c:           ^
+src\bomb4main.c(74): warning:  #177-D: variable "AD_value" was declared but never referenced
+src\bomb4main.c:     short AD_old, AD_value, AD_print;
+src\bomb4main.c:                   ^
+src\bomb4main.c(74): warning:  #177-D: variable "AD_print" was declared but never referenced
+src\bomb4main.c:     short AD_old, AD_value, AD_print;
+src\bomb4main.c:                             ^
+src\bomb4main.c: src\bomb4main.c: 6 warnings, 0 errors
+src\bomb4main.c - 0 Error(s), 6 Warning(s).
+compiling QM_timer.c...
+..\..\mcb2300\drivers\QM_timer.c - 0 Error(s), 0 Warning(s).

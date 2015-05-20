@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="3.0.1">
+ <documentation>Simple model template for QP/C</documentation>
+ <framework name="qpc"/>
+ <package name="Events" stereotype="0x01">
+  <class name="ADEvt" superclass="qpc::QEvt">
+   <attribute name="fine_time" type="uint8_t" visibility="0x02" properties="0x00"/>
+  </class>
+ </package>
+ <package name="BlinkyFSM" stereotype="0x02">
+  <class name="Blinky" superclass="qpc::QFsm">
+   <documentation>Example for a UML Moddled Framework Event Driven System</documentation>
+   <attribute name="AD_Value" type="uint16_t" visibility="0x02" properties="0x00"/>
+   <attribute name="AD_Print" type="uint16_t" visibility="0x02" properties="0x00"/>
+   <attribute name="AD_Old" type="uint16_t" visibility="0x02" properties="0x00"/>
+   <statechart>
+    <initial target="../1">
+     <initial_glyph conn="5,36,5,3,11">
+      <action box="0,-2,6,2"/>
+     </initial_glyph>
+    </initial>
+    <state name="Processing">
+     <tran trig="TICK" target="../../2">
+      <tran_glyph conn="37,27,1,3,24">
+       <action box="1,-2,13,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="AD_READY">
+      <choice target="../../../2">
+       <guard>me-&gt;AD_Old != me-&gt;AD_Value</guard>
+       <choice_glyph conn="53,31,5,3,8">
+        <action box="-13,2,21,2"/>
+       </choice_glyph>
+      </choice>
+      <tran_glyph conn="37,31,1,-1,16">
+       <action box="1,-2,11,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="16,22,21,27"/>
+    </state>
+    <state name="Displaying">
+     <tran trig="BLINK_LED_LCD" target="../../1">
+      <tran_glyph conn="61,46,3,1,-24">
+       <action box="-14,-2,12,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="VT24_OUTPUT" target="../../1">
+      <tran_glyph conn="61,42,3,1,-24">
+       <action box="-14,-2,11,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="61,22,24,27"/>
+    </state>
+    <state_diagram size="121,78"/>
+   </statechart>
+  </class>
+  <operation name="Blinky_ctor" type="void" visibility="0x00" properties="0x00">
+   <parameter name="me" type="Blinky*"/>
+   <code>   QFsm_ctor(&amp;me-&gt;super, (QStateHandler)&amp;Blinky_initial);/* superclass ctor */</code>
+  </operation>
+  <directory name=".\src">
+   <file name="blinky2.c">
+    <text>#include &quot;blinky2.h&quot;                                   /* board support package */
+
+
+
+
+
+$define(BlinkyFSM::Blinky)
+
+
+$define(BlinkyFSM::Blinky_ctor)</text>
+   </file>
+   <file name="blinky2.h">
+    <text>/*  Event driver Systems - University of Munich  - SS 2014 */
+
+#include &quot;qep_port.h&quot;                /* the port of the QEP event processor */
+#include &quot;bsp\bspblinky.h&quot;
+
+
+enum BlinkySignals {                          /* all signals for the Blinky FSM */
+    AD_READY_SIG = Q_USER_SIG,
+    TICK_SIG,
+    BLINK_LED_LCD_SIG,
+    VT24_OUTPUT_SIG,
+    
+    LENGTH_SIG
+};
+
+
+$declare(BlinkyFSM::Blinky)
+$declare(BlinkyFSM::Blinky_ctor)
+$declare(Events::ADEvt)</text>
+   </file>
+   <file name="main.c">
+    <text>#include &lt;stdio.h&gt;
+#include &lt;LPC23xx.H&gt;                    /* LPC23xx definitions                */
+#include &quot;blinky2.h&quot; 
+
+#include &quot;bsp\bspblinky.h&quot;
+
+static Blinky  l_blinky;
+
+int main(void ) {
+
+    BSP_Init();
+
+    Blinky_ctor(&amp;l_blinky);
+    printf(&quot;Blinky as a FSM - Nested Switched Case  Example\n\r&quot;);
+    QFsm_init_((QFsm *)&amp;l_blinky, (QEvt *)0);     /* take the initial transition */
+    while(1) {
+
+        static ADEvt ad_evt =         { AD_READY_SIG, 0 };
+
+        l_blinky.AD_Old = l_blinky.AD_Value;
+        l_blinky.AD_Value = AD_Get_Val();
+        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;ad_evt);
+/*
+     if (FSM_Get_Evt(BLINK_LED_LCD_SIG)) {
+        e = &amp;lcd_evt;
+        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;e);
+     }
+
+     if (Get_Clock_LS ()) {
+        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;tick_evt);
+     }
+
+     if (FSM_Get_Evt(VT24_OUTPUT_SIG)) {
+        e = &amp;v24_evt;
+        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;e);
+     }*/
+
+   }
+
+}</text>
+   </file>
+  </directory>
+ </package>
+</model>

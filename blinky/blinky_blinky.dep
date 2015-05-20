@@ -1,0 +1,15 @@
+Dependencies for Project 'blinky', Target 'blinky': (DO NOT MODIFY !)
+F (.\src\LPC2300.s)(0x5537454D)(--cpu ARM7TDMI -g --apcs=interwork  --predefine "REMAP SETL {TRUE}"  --predefine "RAM_MODE SETL {TRUE}"-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips--list .\map\lpc2300.lst --xref -o .\objs\lpc2300.o --depend .\objs\lpc2300.d)
+F (.\src\Serial.c)(0x5537454D)(-c --cpu ARM7TDMI -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-o .\objs\serial.o --omf_browse .\objs\serial.crf --depend .\objs\serial.d)
+I (C:\Keil_v5\ARM\Inc\Philips\LPC23xx.H)(0x534698AA)
+F (.\src\Blinky.c)(0x5537454D)(-c --cpu ARM7TDMI -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-o .\objs\blinky.o --omf_browse .\objs\blinky.crf --depend .\objs\blinky.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53469CB4)
+I (C:\Keil_v5\ARM\Inc\Philips\LPC23xx.H)(0x534698AA)
+I (src\LCD.h)(0x5537454D)
+F (.\src\IRQ.c)(0x5537454D)(-c --cpu ARM7TDMI -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-o .\objs\irq.o --omf_browse .\objs\irq.crf --depend .\objs\irq.d)
+I (C:\Keil_v5\ARM\Inc\Philips\LPC23xx.H)(0x534698AA)
+F (.\src\LCD_4bit.c)(0x5537454D)(-c --cpu ARM7TDMI -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-o .\objs\lcd_4bit.o --omf_browse .\objs\lcd_4bit.crf --depend .\objs\lcd_4bit.d)
+I (C:\Keil_v5\ARM\Inc\Philips\LPC23xx.H)(0x534698AA)
+F (.\src\Retarget.c)(0x5537454D)(-c --cpu ARM7TDMI -g -O0 --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-o .\objs\retarget.o --omf_browse .\objs\retarget.crf --depend .\objs\retarget.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x53469CB4)
+I (C:\Keil_v5\ARM\ARMCC\include\rt_misc.h)(0x53469CB4)

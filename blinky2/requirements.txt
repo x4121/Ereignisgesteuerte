@@ -1,0 +1,85 @@
+
+
+Blinky 
+
+
+When the MCB2300's poti wheel is rotated, it generates a specifc voltage that is read from the systems analog-digital unit.  The program is requred to obtain the digitial value via the units ISR and dipaly this value on 3 different  output devices. The value must be scaled to be displayed proportionally in accordance with the range of display points on the individual devices
+
+LED: Values Scaled to illuminate a set of Leds such that the number of leds switched on/off  corrrelates to the scaled value
+
+LCD: Dispally the scaled value as a bar graph on the LCD Dispaly such that the number of LCD segments correlates to the scaled value 
+
+V24: Dispaly periodiclly the numerical value in hex Format as output to a serial Terminal.
+
+The LED and LCD display are to be synchronised such that they disply simultaneously the same scaled value.
+
+
+Execution Control is a function of back ground / foreground model.
+
+No Globals to be used in Program
+
+Internal Signals to be mapped to Event Register 
+
+
+Set of HW  Signals:
+
+AD Conversion Signal - New AD Value is ready
+Timeout signal  - Timer value  elapsed
+
+Set of Internal Signasl:
+
+Blink Signal  the LEDs / LCD
+Print Signal for the text output
+
+
+Set of EVENTS:
+ ADREADY__SIG 
+ TICK_SIG,
+ BLINK_LED_LCD_SIG,
+ VT24_OUTPUT_SIG
+
+
+Set of STATES 
+
+PROCESSING  
+- Handels  Signals:
+	ADREADY__SIG 
+ 	TICK_SIG,
+
+DISPLAYING 
+- Handles  Signals:
+	BLINK_LED_LCD_SIG,
+ 	VT24_OUTPUT_SIG
+
+Initial State: 
+	PROCESSING  
+
+Mapping Funtion:
+
+Nested Switch Case.
+
+BSP:
+
+Isolate specific HW components and implement each in seperate compilation units. Use existing code.
+Serial 
+LED
+LCD
+Timer
+AD Converter
+
+
+Design and Impement Functions to
+
+Routines required to retrieve HW Signals
+
+Routines required to Initalise HW
+
+Routines required to Register Events
+
+
+
+
+
+
+
+ 

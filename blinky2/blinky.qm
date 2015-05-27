@@ -10,9 +10,9 @@
  <package name="BlinkyFSM" stereotype="0x02">
   <class name="Blinky" superclass="qpc::QFsm">
    <documentation>Example for a UML Moddled Framework Event Driven System</documentation>
-   <attribute name="AD_Value" type="uint16_t" visibility="0x02" properties="0x00"/>
-   <attribute name="AD_Print" type="uint16_t" visibility="0x02" properties="0x00"/>
-   <attribute name="AD_Old" type="uint16_t" visibility="0x02" properties="0x00"/>
+   <attribute name="AD_Value" type="short" visibility="0x02" properties="0x00"/>
+   <attribute name="AD_Print" type="short" visibility="0x02" properties="0x00"/>
+   <attribute name="AD_Old" type="short" visibility="0x02" properties="0x00"/>
    <statechart>
     <initial target="../1">
      <initial_glyph conn="5,36,5,3,11">
@@ -20,20 +20,30 @@
      </initial_glyph>
     </initial>
     <state name="Processing">
-     <tran trig="TICK" target="../../2">
-      <tran_glyph conn="37,27,1,3,24">
-       <action box="1,-2,13,2"/>
-      </tran_glyph>
-     </tran>
      <tran trig="AD_READY">
       <choice target="../../../2">
        <guard>me-&gt;AD_Old != me-&gt;AD_Value</guard>
+       <action>unsigned int n;
+unsigned int v;
+BSP_Disp_Bargraph(0, 1, (me-&gt;AD_Value/13));
+v = (5*(me-&gt;AD_Value)) &gt;&gt; 9;          /* Scale the Value                    */
+for (n = 0; n &lt; 8; n++) {              /* Show the Value                     */
+    if (n &lt; v) LED_On (n);              /* Turn LED On                        */
+    else       LED_Off(n);              /* Turn LED Off                       */
+}
+FSM_Post_Evt(BLINK_LED_LCD_SIG);</action>
        <choice_glyph conn="53,31,5,3,8">
-        <action box="-13,2,21,2"/>
+        <action box="-13,1,21,2"/>
        </choice_glyph>
       </choice>
       <tran_glyph conn="37,31,1,-1,16">
        <action box="1,-2,11,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="TICK" target="../../2">
+      <action>FSM_Post_Evt(VT24_OUTPUT_SIG);</action>
+      <tran_glyph conn="37,28,1,3,24">
+       <action box="2,-3,13,2"/>
       </tran_glyph>
      </tran>
      <state_glyph node="16,22,21,27"/>
@@ -74,6 +84,9 @@ $define(BlinkyFSM::Blinky_ctor)</text>
    <file name="blinky2.h">
     <text>/*  Event driver Systems - University of Munich  - SS 2014 */
 
+#ifndef BLINKY_2_H
+#define BLINKY_2_H
+
 #include &quot;qep_port.h&quot;                /* the port of the QEP event processor */
 #include &quot;bsp\bspblinky.h&quot;
 
@@ -90,7 +103,9 @@ enum BlinkySignals {                          /* all signals for the Blinky FSM 
 
 $declare(BlinkyFSM::Blinky)
 $declare(BlinkyFSM::Blinky_ctor)
-$declare(Events::ADEvt)</text>
+$declare(Events::ADEvt)
+
+#endif</text>
    </file>
    <file name="main.c">
     <text>#include &lt;stdio.h&gt;
@@ -111,14 +126,16 @@ int main(void ) {
     while(1) {
 
         static ADEvt ad_evt =         { AD_READY_SIG, 0 };
+        static QEvt lcd_evt =         { BLINK_LED_LCD_SIG };
+        static QEvt v24_evt =         { VT24_OUTPUT_SIG };
+        static QEvt tick_evt =        { TICK_SIG };
 
         l_blinky.AD_Old = l_blinky.AD_Value;
         l_blinky.AD_Value = AD_Get_Val();
         QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;ad_evt);
-/*
+
      if (FSM_Get_Evt(BLINK_LED_LCD_SIG)) {
-        e = &amp;lcd_evt;
-        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;e);
+        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;lcd_evt);
      }
 
      if (Get_Clock_LS ()) {
@@ -126,9 +143,8 @@ int main(void ) {
      }
 
      if (FSM_Get_Evt(VT24_OUTPUT_SIG)) {
-        e = &amp;v24_evt;
-        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;e);
-     }*/
+        QFsm_dispatch_((QFsm *)&amp;l_blinky, (QEvt *)&amp;v24_evt);
+     }
 
    }
 

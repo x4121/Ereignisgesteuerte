@@ -1,8 +1,11 @@
+
+#include "bspblinky.h"
+#include "../blinky2.h"
+
 #include <stdio.h>
 #include <LPC23xx.H>                    /* LPC23xx definitions                */
-#include "bspblinky.h"
 
-
+int scheduler_started;
 
 void BSP_Init(void ) {
 	
@@ -80,4 +83,32 @@ short  FSM_Get_Evt( short evt ) {
 	}
 	return rtc;
 }
+
+/*..........................................................................*/
+/* this function is used by the QP embedded systems-friendly assertions */
+void Q_onAssert(char const * const file, int line) {
+    printf("Assertion failed in %s, line %d", file, line);
+    fflush(stdout);
+    _sys_exit(-1);
+}
+/*..........................................................................*/
+/* Application specific callbacks from the framework  */
+void QF_onCleanup(void)	  {
+
+	 ;
+
+	 }
+
+void QF_onIdle(void)	  {
+
+	
+	 ;
+
+	 }
+void QF_onStartup(void)	  {
+
+	
+	scheduler_started=1 ;
+
+	 }
 

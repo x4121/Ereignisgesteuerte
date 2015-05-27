@@ -1,3 +1,7 @@
+#ifndef bspblinky_h
+#define bspblinky_h
+
+
 #include <stdio.h>
 #include <stdint.h>
 #include <LPC23xx.H>                    /* LPC23xx definitions                */
@@ -29,3 +33,5 @@ void init_serial (void);
 void LED_Init(void) ;
 void LED_On (unsigned int n);
 void LED_Off (unsigned int n);
+
+#endif

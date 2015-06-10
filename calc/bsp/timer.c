@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <LPC23xx.H>                    /* LPC23xx definitions                */
 
-#include <qp_port.h>
-
 static int clock_1s;
 
 
@@ -25,11 +23,6 @@ int Get_Clock_LS ( void ) {
 __irq void T0_IRQHandler (void) {
  
  static int clk_cntr;
-	
-	//QF_INT_ENABLE();
-	QF_tick();
-	//QF_INT_DISABLE();
-	
 
 
   clk_cntr++;

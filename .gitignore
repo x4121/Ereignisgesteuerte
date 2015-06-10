@@ -82,4 +82,14 @@ Session.vim
 obj/
 objs/
 map/
+*.ifs14070
+*.ifs14071
+*.uniron
+*.Ron
+*.mine
+*.r[0-9]*
 
+# Other projects
+bomb5/
+comp/
+history/

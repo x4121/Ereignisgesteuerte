@@ -45,9 +45,10 @@ int main(void ) {
         QFsm_dispatch_((QFsm *)&l_blinky, (QEvt *)&lcd_evt);
      }
 
-     if (Get_Clock_LS ()) {
+/*     if (Get_Clock_LS ()) {
+     if ()
         QFsm_dispatch_((QFsm *)&l_blinky, (QEvt *)&tick_evt);
-     }
+     }*/
 
      if (FSM_Get_Evt(VT24_OUTPUT_SIG)) {
         QFsm_dispatch_((QFsm *)&l_blinky, (QEvt *)&v24_evt);

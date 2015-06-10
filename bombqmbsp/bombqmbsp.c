@@ -18,9 +18,11 @@ void BSP_Init( ) {
 
   
 
-  Init_Timer1( );
-	Init_timer0();
- // init_serial();                               /* Init UART                   */
+ // Init_Timer1( );
+//	Init_timer0();
+                              /* Init UART                   */
+	Timer0_Init();
+	
   uart_init_0 ( );
   lcd_init();
   lcd_clear();

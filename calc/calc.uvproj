@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>bomb4</TargetName>
+      <TargetName>calc</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
@@ -45,13 +45,13 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\obj\</OutputDirectory>
-          <OutputName>bomb4</OutputName>
+          <OutputName>calc</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\obj\</ListingPath>
+          <ListingPath>.\lst\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -159,7 +159,7 @@
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile>.\bomb_ram.ini</InitializationFile>
+            <InitializationFile>.\calc_ram.ini</InitializationFile>
             <Driver>BIN\UL2ARM.DLL</Driver>
           </TargetDlls>
         </DebugOption>
@@ -169,12 +169,12 @@
             <UseExternalTool>1</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>0</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <Capability>1</Capability>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>0</bUseTDR>
-          <Flash2></Flash2>
-          <Flash3>LPC210x_ISP.EXE ("#H" ^X $D COM1: 38400 1)</Flash3>
+          <Flash2>BIN\UL2ARM.DLL</Flash2>
+          <Flash3>"LPC210x_ISP.EXE" ("#H" ^X $D COM1: 38400 1)</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -309,7 +309,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x40000000</StartAddress>
-                <Size>0x3fff</Size>
+                <Size>0x4fff</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -333,8 +333,8 @@
               </OCR_RVCT8>
               <OCR_RVCT9>
                 <Type>0</Type>
-                <StartAddress>0x40004000</StartAddress>
-                <Size>0x3fff</Size>
+                <StartAddress>0x40005000</StartAddress>
+                <Size>0x2fff</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -361,10 +361,10 @@
             <uC99>0</uC99>
             <useXO>0</useXO>
             <VariousControls>
-              <MiscControls>-D__MICROLIB</MiscControls>
-              <Define>QEP BOMB</Define>
+              <MiscControls></MiscControls>
+              <Define>QEP QM_TICK</Define>
               <Undefine></Undefine>
-              <IncludePath>..\bombqmbsp;..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include;..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil;..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include</IncludePath>
+              <IncludePath>.\bombqmbsp;..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include;..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil;..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -394,7 +394,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x40000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile></ScatterFile>
+            <ScatterFile>.\obj\calc.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc>--entry 0x40000000</Misc>
@@ -408,19 +408,19 @@
           <GroupName>startup</GroupName>
           <Files>
             <File>
+              <FileName>Retarget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\Retarget.c</FilePath>
+            </File>
+            <File>
               <FileName>startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\startup\startup.s</FilePath>
+              <FilePath>.\src\startup.s</FilePath>
             </File>
             <File>
               <FileName>swi_interrup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\startup\swi_interrup.s</FilePath>
-            </File>
-            <File>
-              <FileName>Retarget.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\retarget\Retarget.c</FilePath>
+              <FilePath>.\src\swi_interrup.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -430,22 +430,22 @@
             <File>
               <FileName>LCD_4bit.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\drivers\LCD_4bit.c</FilePath>
+              <FilePath>.\bsp\LCD_4bit.c</FilePath>
             </File>
             <File>
               <FileName>led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\drivers\led.c</FilePath>
-            </File>
-            <File>
-              <FileName>QEP_timer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\drivers\QEP_timer.c</FilePath>
+              <FilePath>.\bsp\led.c</FilePath>
             </File>
             <File>
               <FileName>Serial.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\drivers\Serial.c</FilePath>
+              <FilePath>.\bsp\Serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp\timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -453,14 +453,24 @@
           <GroupName>app</GroupName>
           <Files>
             <File>
+              <FileName>calc1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\calc1.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\bsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>calc2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\calc2.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>bom4_a.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\bom4_a.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -516,16 +526,6 @@
               <FileName>qmsm_ini.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\qep\source\qmsm_ini.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>bombqmbsp</GroupName>
-          <Files>
-            <File>
-              <FileName>bombqmbsp.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\bombqmbsp\bombqmbsp.c</FilePath>
             </File>
           </Files>
         </Group>

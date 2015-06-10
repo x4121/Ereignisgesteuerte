@@ -72,7 +72,7 @@ Stack_Top
 ;//   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF>
 ;// </h>
 
-Heap_Size       EQU     0x00000000
+Heap_Size       EQU     0x00000800
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -325,9 +325,9 @@ MAMTIM_Val      EQU     0x00000004
 ;  Startup Code must be linked first at Address at which it expects to run.
 
                 AREA    RESET, CODE, READONLY
+				ENTRY
                 ARM
 				IMPORT T_SWI_Handler
-
 
 ; Exception Vectors
 ;  Mapped to Address 0.
@@ -500,12 +500,11 @@ MEMMAP          EQU     0xE01FC040      ; Memory Mapping Control
 
 ; Enter the C code
 
-
-
                 IMPORT  __main
+
+
                 LDR     R0, =__main
-				BX      R0
-			
+                BX      R0
 
 
                 IF      :DEF:__MICROLIB
@@ -517,14 +516,15 @@ MEMMAP          EQU     0xE01FC040      ; Memory Mapping Control
 ; User Initial Stack & Heap
                 AREA    |.text|, CODE, READONLY
 
+			
                 IMPORT  __use_two_region_memory
                 EXPORT  __user_initial_stackheap
 __user_initial_stackheap
 
-                LDR     R0, =  Heap_Mem
-                LDR     R1, =(Stack_Mem + USR_Stack_Size)
-                LDR     R2, = (Heap_Mem +      Heap_Size)
-                LDR     R3, = Stack_Mem
+                LDR     R0, =  Heap_Mem	  ;heap base in r0
+                LDR     R1, =(Stack_Mem + USR_Stack_Size) ;stack base in r1 -highest add
+                LDR     R2, = (Heap_Mem +      Heap_Size) ;leap limit 
+                LDR     R3, = Stack_Mem		;stack lowest address	
                 BX      LR
                 ENDIF
 

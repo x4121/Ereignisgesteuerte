@@ -1,3 +1,4 @@
+<<<<<<< .mine
 <?xml version="1.0" encoding="UTF-8"?>
 <session version="3.0.1">
  <item name="license">GPL</item>
@@ -61,3 +62,68 @@
   </group>
  </group>
 </session>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="3.0.1">
+ <item name="license">GPL</item>
+ <group name="locked"/>
+ <group name="settings">
+  <item name="tabs">1</item>
+  <item name="windows">0</item>
+  <item name="grid">3</item>
+ </group>
+ <group name="windows">
+  <item id="..\bomb4\src::bom4_a.c">0,0,596,300</item>
+  <item id="..\bomb4\src::main.c">-416,0,1173,510</item>
+  <item id="..\bomb4\src::bomb4_a.h">172,138,585,264</item>
+  <item id="Bomb4FSM::Bomb4::SM">0,0,757,378,*</item>
+ </group>
+ <group name="search">
+  <item name="options">4129280</item>
+  <item name="replace">0</item>
+ </group>
+ <group name="vars"/>
+ <group name="tools">
+  <group name="tool">
+   <item name="icon">0</item>
+   <item name="title"></item>
+   <item name="command"></item>
+   <item name="args"></item>
+   <item name="initial"></item>
+   <item name="options">0</item>
+  </group>
+  <group name="tool">
+   <item name="icon">0</item>
+   <item name="title"></item>
+   <item name="command"></item>
+   <item name="args"></item>
+   <item name="initial"></item>
+   <item name="options">0</item>
+  </group>
+  <group name="tool">
+   <item name="icon">0</item>
+   <item name="title"></item>
+   <item name="command"></item>
+   <item name="args"></item>
+   <item name="initial"></item>
+   <item name="options">0</item>
+  </group>
+  <group name="tool">
+   <item name="icon">0</item>
+   <item name="title"></item>
+   <item name="command"></item>
+   <item name="args"></item>
+   <item name="initial"></item>
+   <item name="options">0</item>
+  </group>
+  <group name="tool">
+   <item name="icon">0</item>
+   <item name="title"></item>
+   <item name="command"></item>
+   <item name="args"></item>
+   <item name="initial"></item>
+   <item name="options">0</item>
+  </group>
+ </group>
+</session>
+>>>>>>> .r36

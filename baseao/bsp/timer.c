@@ -1,8 +1,7 @@
 #include <stdio.h>
+
 #include <LPC23xx.H>                    /* LPC23xx definitions                */
-
-#include <qp_port.h>
-
+#include "qp_port.h"  
 static int clock_1s;
 
 
@@ -25,11 +24,6 @@ int Get_Clock_LS ( void ) {
 __irq void T0_IRQHandler (void) {
  
  static int clk_cntr;
-	
-	//QF_INT_ENABLE();
-	QF_tick();
-	//QF_INT_DISABLE();
-	
 
 
   clk_cntr++;
@@ -37,6 +31,8 @@ __irq void T0_IRQHandler (void) {
     clk_cntr = 0;
     clock_1s = 1;                       /* Activate flag every 1 second       */
   }
+	
+	QF_tick();
 	
   AD0CR |= 0x01000000;                  /* Start A/D Conversion               */
 

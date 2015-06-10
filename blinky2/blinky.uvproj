@@ -412,6 +412,11 @@
               <FileType>2</FileType>
               <FilePath>.\src\LPC2300.s</FilePath>
             </File>
+            <File>
+              <FileName>swi.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\swi.s</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

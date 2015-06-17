@@ -158,24 +158,24 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
         </choice_glyph>
        </choice>
        <tran_glyph conn="57,111,2,-1,6">
-        <action box="0,0,6,2"/>
+        <action box="0,1,6,2"/>
        </tran_glyph>
       </tran>
       <tran trig="EQUALS">
        <choice target="../../../8/6">
         <guard brief="isValid">BSP_eval(me-&gt;operand1, me-&gt;operator, BSP_get_value())</guard>
-        <choice_glyph conn="92,95,4,3,-68,2">
+        <choice_glyph conn="97,95,4,2,-65">
          <action box="0,-3,10,2"/>
         </choice_glyph>
        </choice>
        <choice target="../../../9">
         <guard>else</guard>
-        <choice_glyph conn="92,95,5,0,10,5">
-         <action box="3,0,10,2"/>
+        <choice_glyph conn="97,95,5,0,5,5">
+         <action box="1,0,10,2"/>
         </choice_glyph>
        </choice>
-       <tran_glyph conn="71,111,2,-1,4,21,-20">
-        <action box="-6,0,6,2"/>
+       <tran_glyph conn="71,111,2,-1,4,21,-20,5">
+        <action box="0,1,6,2"/>
        </tran_glyph>
       </tran>
       <state name="Zero2">
@@ -327,7 +327,7 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
        </tran_glyph>
       </tran>
       <tran trig="EQUALS" target="../../8/6">
-       <tran_glyph conn="70,71,2,2,2,30,-43">
+       <tran_glyph conn="70,71,2,2,2,25,-43">
         <action box="0,0,6,2"/>
        </tran_glyph>
       </tran>
@@ -479,12 +479,12 @@ return Q_SUPER(&amp;Calc_Ready);</action>
       <state name="Result">
        <entry>BSP_message(&quot;result-ENTRY;&quot;);</entry>
        <exit>BSP_message(&quot;result-EXIT;&quot;);</exit>
-       <state_glyph node="94,19,9,11">
+       <state_glyph node="92,19,8,11">
         <entry box="1,2,6,2"/>
         <exit box="1,4,6,2"/>
        </state_glyph>
       </state>
-      <state_glyph node="19,14,87,18">
+      <state_glyph node="19,14,83,18">
        <entry box="1,2,5,2"/>
        <exit box="1,4,5,2"/>
       </state_glyph>

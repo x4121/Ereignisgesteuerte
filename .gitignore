@@ -93,3 +93,7 @@ map/
 bomb5/
 comp/
 history/
+
+# Generated files
+calc/src/calc.*
+calc/src/main.c

@@ -9,8 +9,8 @@
  </group>
  <group name="windows">
   <item id="BlinkyFSM::.\src::blinky2.h">0,0,596,300</item>
-  <item id="BlinkyFSM::Blinky::SM">84,8,865,642</item>
-  <item id="BlinkyFSM::.\src::main.c">0,0,949,626,*</item>
+  <item id="BlinkyFSM::Blinky::SM">0,24,865,642</item>
+  <item id="BlinkyFSM::.\src::main.c">0,0,209,626,*</item>
  </group>
  <group name="search">
   <item name="options">4129280</item>

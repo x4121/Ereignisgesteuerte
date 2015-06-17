@@ -16,8 +16,11 @@
 #include "LCD.h"
 
 #define DISP_WIDTH  9
+#define LCD_WIDTH 16
 
 static char l_display[DISP_WIDTH + 1];            /* the calculator display */
+static char lcd_display_top[LCD_WIDTH];
+static char lcd_display_bot[LCD_WIDTH];
 static int  l_len;                        /* number of displayed characters */
 
 
@@ -45,6 +48,7 @@ void BSP_Init(void) {
 /*..........................................................................*/
 void BSP_clear(void) {
     memset(l_display, ' ', DISP_WIDTH - 1);
+	  memset(lcd_display_top, ' ', LCD_WIDTH -1);
     l_display[DISP_WIDTH - 1] = '0';
     l_display[DISP_WIDTH] = '\0';
     l_len = 0;
@@ -53,12 +57,19 @@ void BSP_clear(void) {
 void BSP_insert(int keyId) {
     if (l_len == 0) {
         l_display[DISP_WIDTH - 1] = (char)keyId;
+			  lcd_display_top[LCD_WIDTH - 1] = (char)keyId;
         ++l_len;
     }
-    else if (l_len < (DISP_WIDTH - 1)) {
+    else {
+			if (l_len < (DISP_WIDTH - 1)) {
         memmove(&l_display[0], &l_display[1], DISP_WIDTH - 1);
         l_display[DISP_WIDTH - 1] = (char)keyId;
-        ++l_len;
+			}
+			if (l_len < (LCD_WIDTH -1)) {
+				memmove(&lcd_display_top[0], &lcd_display_top[1], LCD_WIDTH -1);
+				lcd_display_top[LCD_WIDTH -1] = (char)keyId;
+			}
+			++l_len;
     }
 }
 /*..........................................................................*/
@@ -69,6 +80,7 @@ void BSP_negate(void) {
 /*..........................................................................*/
 void BSP_display(void) {
     printf("\n[%s] ", l_display);
+	  BSP_display_str(lcd_display_top);
  //   fflush(stdout);
 }
  

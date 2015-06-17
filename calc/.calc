@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <session version="3.0.1">
- <item name="license"></item>
+ <item name="license">GPL</item>
  <group name="locked"/>
  <group name="settings">
   <item name="tabs">1</item>
@@ -8,7 +8,10 @@
   <item name="grid">3</item>
  </group>
  <group name="windows">
-  <item id="calc::Calc1::SM">0,0,865,642,*</item>
+  <item id="CalcHSM::Calc::SM">0,0,865,642</item>
+  <item id="CalcHSM::.\src::main.c">0,0,843,670,*</item>
+  <item id="CalcHSM::.\src::calc.c">-174,0,596,300</item>
+  <item id="CalcHSM::.\src::calc.h">-174,300,596,300</item>
  </group>
  <group name="search">
   <item name="options">4129280</item>

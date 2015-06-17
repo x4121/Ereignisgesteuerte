@@ -15,7 +15,7 @@
     <state name="On">
      <entry>BSP_message(&quot;on-ENTRY;&quot;);</entry>
      <exit>BSP_message(&quot;on-EXIT;&quot;);</exit>
-     <initial target="../9">
+     <initial target="../8">
       <action>BSP_message(&quot;ready-INIT;&quot;);</action>
       <initial_glyph conn="13,17,5,3,6">
        <action box="0,-2,6,2"/>
@@ -36,31 +36,39 @@
       <entry>BSP_message(&quot;opEntered-ENTRY;&quot;);</entry>
       <exit>BSP_message(&quot;opEntered-EXIT;&quot;);</exit>
       <tran trig="OPER">
-       <choice target="../../../7">
+       <choice target="../../../6">
         <guard brief="-">(((CalcEvt const *)e) -&gt;key_code == KEY_MINUS)</guard>
         <action>BSP_clear();</action>
         <choice_glyph conn="17,69,4,0,20">
          <action box="-3,1,6,2"/>
         </choice_glyph>
        </choice>
+       <choice>
+        <guard>else</guard>
+        <action>// dirty fix
+return Q_SUPER(&amp;Calc_On);</action>
+        <choice_glyph conn="17,69,5,-1,-4">
+         <action box="-6,-3,6,2"/>
+        </choice_glyph>
+       </choice>
        <tran_glyph conn="17,63,2,-1,6">
         <action box="-4,1,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_0" target="../../6/3">
+      <tran trig="DIGIT_0" target="../../5/3">
        <action>BSP_clear();</action>
        <tran_glyph conn="19,63,2,0,16,37,9">
         <action box="0,14,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../6/4">
+      <tran trig="DIGIT_1_9" target="../../5/4">
        <action>BSP_clear();
 BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="21,63,2,0,14,44,11">
         <action box="0,12,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../6/5">
+      <tran trig="POINT" target="../../5/5">
        <action>BSP_clear();
 BSP_insert((int)'0');
 BSP_insert((int)'.');</action>
@@ -84,29 +92,37 @@ BSP_negate();</entry>
          <action box="-3,-2,6,2"/>
         </choice_glyph>
        </choice>
+       <choice>
+        <guard>else</guard>
+        <action>// dirty fix
+return Q_SUPER(&amp;Calc_On);</action>
+        <choice_glyph conn="39,58,4,-1,-4">
+         <action box="1,-6,6,2"/>
+        </choice_glyph>
+       </choice>
        <tran_glyph conn="45,58,1,-1,-6">
         <action box="-4,-2,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="CE" target="../../9/5">
+      <tran trig="CE" target="../../8/5">
        <action>BSP_clear();</action>
        <tran_glyph conn="35,63,2,3,4,-4,-42,2">
         <action box="-4,2,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_0" target="../../8/5">
+      <tran trig="DIGIT_0" target="../../7/5">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="41,63,2,2,2,15,-2">
         <action box="0,0,7,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../8/3">
+      <tran trig="DIGIT_1_9" target="../../7/3">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="39,63,2,2,4,29,-4">
         <action box="0,2,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../8/4">
+      <tran trig="POINT" target="../../7/4">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="37,63,2,2,6,41,-6">
         <action box="0,4,6,2"/>
@@ -117,18 +133,10 @@ BSP_negate();</entry>
        <exit box="1,4,5,2"/>
       </state_glyph>
      </state>
-     <state name="Result">
-      <entry>BSP_message(&quot;result-ENTRY;&quot;);</entry>
-      <exit>BSP_message(&quot;result-EXIT;&quot;);</exit>
-      <state_glyph node="96,80,9,11">
-       <entry box="1,2,6,2"/>
-       <exit box="1,4,6,2"/>
-      </state_glyph>
-     </state>
      <state name="Operand2">
       <entry>BSP_message(&quot;operand2-ENTRY;&quot;);</entry>
       <exit>BSP_message(&quot;operand2-EXIT;&quot;);</exit>
-      <tran trig="CE" target="../../9/5">
+      <tran trig="CE" target="../../8/5">
        <action>BSP_clear();</action>
        <tran_glyph conn="83,111,2,1,2,7,-90,-15">
         <action box="2,0,6,2"/>
@@ -143,7 +151,7 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
          <action box="-7,-2,10,2"/>
         </choice_glyph>
        </choice>
-       <choice target="../../../10">
+       <choice target="../../../9">
         <guard>else</guard>
         <choice_glyph conn="57,117,5,0,37,-20,5,3">
          <action box="2,-2,10,2"/>
@@ -154,13 +162,13 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
        </tran_glyph>
       </tran>
       <tran trig="EQUALS">
-       <choice target="../../../5">
+       <choice target="../../../8/6">
         <guard brief="isValid">BSP_eval(me-&gt;operand1, me-&gt;operator, BSP_get_value())</guard>
-        <choice_glyph conn="92,95,4,0,-20,7,5">
+        <choice_glyph conn="92,95,4,3,-68,2">
          <action box="0,-3,10,2"/>
         </choice_glyph>
        </choice>
-       <choice target="../../../10">
+       <choice target="../../../9">
         <guard>else</guard>
         <choice_glyph conn="92,95,5,0,10,5">
          <action box="3,0,10,2"/>
@@ -263,8 +271,9 @@ BSP_negate();</entry>
         </choice_glyph>
        </choice>
        <choice>
-        <guard brief="else">else</guard>
-        <action>return Q_SUPER(&amp;Calc_On);</action>
+        <guard>else</guard>
+        <action>// dirty fix
+return Q_SUPER(&amp;Calc_On);</action>
         <choice_glyph conn="21,99,4,-1,-4">
          <action box="1,-5,6,2"/>
         </choice_glyph>
@@ -279,18 +288,18 @@ BSP_negate();</entry>
         <action box="-6,1,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_0" target="../../6/3">
+      <tran trig="DIGIT_0" target="../../5/3">
        <tran_glyph conn="23,103,2,2,3,33,-4">
         <action box="0,1,7,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../6/4">
+      <tran trig="DIGIT_1_9" target="../../5/4">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="21,103,2,2,5,48,-6">
         <action box="0,3,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../6/5">
+      <tran trig="POINT" target="../../5/5">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="19,103,2,2,7,59,-8">
         <action box="0,5,6,2"/>
@@ -304,7 +313,7 @@ BSP_negate();</entry>
      <state name="Operand1">
       <entry>BSP_message(&quot;operand1-ENTRY;&quot;);</entry>
       <exit>BSP_message(&quot;operand1-EXIT;&quot;);</exit>
-      <tran trig="CE" target="../../9/5">
+      <tran trig="CE" target="../../8/5">
        <action>BSP_clear();</action>
        <tran_glyph conn="85,52,1,1,3,-27,-13">
         <action box="0,-2,6,2"/>
@@ -317,8 +326,8 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
         <action box="-36,0,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="EQUALS" target="../../5">
-       <tran_glyph conn="70,71,2,0,2,32,7">
+      <tran trig="EQUALS" target="../../8/6">
+       <tran_glyph conn="70,71,2,2,2,30,-43">
         <action box="0,0,6,2"/>
        </tran_glyph>
       </tran>
@@ -412,20 +421,20 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
         <action box="0,-2,6,2"/>
        </initial_glyph>
       </initial>
-      <tran trig="DIGIT_0" target="../../8/5">
+      <tran trig="DIGIT_0" target="../../7/5">
        <action>BSP_clear();</action>
        <tran_glyph conn="56,32,2,0,17">
         <action box="0,1,11,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../8/3">
+      <tran trig="DIGIT_1_9" target="../../7/3">
        <action>BSP_clear();
 BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="65,32,2,0,17">
         <action box="0,1,11,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../8/4">
+      <tran trig="POINT" target="../../7/4">
        <action>BSP_clear();
 BSP_insert((int)'0');
 BSP_insert((int)'.');</action>
@@ -450,6 +459,14 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
           <action box="0,1,6,3"/>
          </choice_glyph>
         </choice>
+        <choice>
+         <guard>else</guard>
+         <action>// dirty fix
+return Q_SUPER(&amp;Calc_Ready);</action>
+         <choice_glyph conn="38,37,5,-1,8">
+          <action box="5,-2,6,2"/>
+         </choice_glyph>
+        </choice>
         <tran_glyph conn="38,28,2,-1,9">
          <action box="0,5,6,2"/>
         </tran_glyph>
@@ -459,7 +476,15 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
         <exit box="1,4,5,2"/>
        </state_glyph>
       </state>
-      <state_glyph node="19,14,66,18">
+      <state name="Result">
+       <entry>BSP_message(&quot;result-ENTRY;&quot;);</entry>
+       <exit>BSP_message(&quot;result-EXIT;&quot;);</exit>
+       <state_glyph node="94,19,9,11">
+        <entry box="1,2,6,2"/>
+        <exit box="1,4,6,2"/>
+       </state_glyph>
+      </state>
+      <state_glyph node="19,14,87,18">
        <entry box="1,2,5,2"/>
        <exit box="1,4,5,2"/>
       </state_glyph>
@@ -559,70 +584,72 @@ int  main() {
     for (;;) {                                                /* event loop */
         CalcEvt e;                                      /* Calculator event */
 
-        BSP_display();                                  /* show the display */
-        delay(10000000);
+        delay(1000000);
         e.key_code = (uint8_t)_getch();             /* get a char with echo */
-        printf(&quot;: &quot;);
+        if (e.key_code != 0) {
+            switch (e.key_code) {
+                case 'c':                         /* intentionally fall through */
+                case 'C': {
+                    ((QEvent *)&amp;e)-&gt;sig = C_SIG;
+                    break;
+                }
+                case 'e':                         /* intentionally fall through */
+                case 'E': {
+                    ((QEvent *)&amp;e)-&gt;sig = CE_SIG;
+                    break;
+                }
+                case '0': {
+                    ((QEvent *)&amp;e)-&gt;sig = DIGIT_0_SIG;
+                    break;
+                }
+                case '1':                         /* intentionally fall through */
+                case '2':                         /* intentionally fall through */
+                case '3':                         /* intentionally fall through */
+                case '4':                         /* intentionally fall through */
+                case '5':                         /* intentionally fall through */
+                case '6':                         /* intentionally fall through */
+                case '7':                         /* intentionally fall through */
+                case '8':                         /* intentionally fall through */
+                case '9': {
+                    ((QEvent *)&amp;e)-&gt;sig = DIGIT_1_9_SIG;
+                    break;
+                }
+                case '.': {
+                    ((QEvent *)&amp;e)-&gt;sig = POINT_SIG;
+                    break;
+                }
+                case '+':                         /* intentionally fall through */
+                case '-':                         /* intentionally fall through */
+                case '*':                         /* intentionally fall through */
+                case '/': {
+                    ((QEvent *)&amp;e)-&gt;sig = OPER_SIG;
+                    break;
+                }
+                case '%': {                              /* new event for Calc2 */
+                    ((QEvent *)&amp;e)-&gt;sig = PERCENT_SIG;
+                    break;
+                }
+                case '=':                         /* intentionally fall through */
+                case '\n':
+                case '\r': {                                       /* Enter key */
+                    ((QEvent *)&amp;e)-&gt;sig = EQUALS_SIG;
+                    break;
+                }
+                case '\33': {                                        /* ESC key */
+                    ((QEvent *)&amp;e)-&gt;sig = OFF_SIG;
+                    break;
+                }
+                default: {
+                    ((QEvent *)&amp;e)-&gt;sig = 0;                   /* invalid event */
+                    break;
+                }
+            }
 
-        switch (e.key_code) {
-            case 'c':                         /* intentionally fall through */
-            case 'C': {
-                ((QEvent *)&amp;e)-&gt;sig = C_SIG;
-                break;
+            if (((QEvent *)&amp;e)-&gt;sig != 0) {           /* valid event generated? */
+                QHsm_dispatch((QHsm *)&amp;l_calc, (QEvent *)&amp;e); /* dispatch event */
+                BSP_display();                                  /* show the display */
+                printf(&quot;: &quot;);
             }
-            case 'e':                         /* intentionally fall through */
-            case 'E': {
-                ((QEvent *)&amp;e)-&gt;sig = CE_SIG;
-                break;
-            }
-            case '0': {
-                ((QEvent *)&amp;e)-&gt;sig = DIGIT_0_SIG;
-                break;
-            }
-            case '1':                         /* intentionally fall through */
-            case '2':                         /* intentionally fall through */
-            case '3':                         /* intentionally fall through */
-            case '4':                         /* intentionally fall through */
-            case '5':                         /* intentionally fall through */
-            case '6':                         /* intentionally fall through */
-            case '7':                         /* intentionally fall through */
-            case '8':                         /* intentionally fall through */
-            case '9': {
-                ((QEvent *)&amp;e)-&gt;sig = DIGIT_1_9_SIG;
-                break;
-            }
-            case '.': {
-                ((QEvent *)&amp;e)-&gt;sig = POINT_SIG;
-                break;
-            }
-            case '+':                         /* intentionally fall through */
-            case '-':                         /* intentionally fall through */
-            case '*':                         /* intentionally fall through */
-            case '/': {
-                ((QEvent *)&amp;e)-&gt;sig = OPER_SIG;
-                break;
-            }
-            case '%': {                              /* new event for Calc2 */
-                ((QEvent *)&amp;e)-&gt;sig = PERCENT_SIG;
-                break;
-            }
-            case '=':                         /* intentionally fall through */
-            case '\r': {                                       /* Enter key */
-                ((QEvent *)&amp;e)-&gt;sig = EQUALS_SIG;
-                break;
-            }
-            case '\33': {                                        /* ESC key */
-                ((QEvent *)&amp;e)-&gt;sig = OFF_SIG;
-                break;
-            }
-            default: {
-                ((QEvent *)&amp;e)-&gt;sig = 0;                   /* invalid event */
-                break;
-            }
-        }
-
-        if (((QEvent *)&amp;e)-&gt;sig != 0) {           /* valid event generated? */
-            QHsm_dispatch((QHsm *)&amp;l_calc, (QEvent *)&amp;e); /* dispatch event */
         }
     }
 }

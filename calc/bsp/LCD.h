@@ -8,7 +8,6 @@
 /* development tools. Nothing else gives you the right to use this software.  */
 /******************************************************************************/
 
-
 extern void lcd_init    (void);
 extern void lcd_clear   (void);
 extern void lcd_putchar (char c);

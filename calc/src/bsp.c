@@ -27,12 +27,12 @@ static enum display_state_t {
 
 static struct display_t {
     char op1[DISP_WIDTH + 1];
-    int  op1_len;
+    int op1_len;
     char op2[DISP_WIDTH + 1];
-    int  op2_len;
+    int op2_len;
     char op;
     char result[LCD_WIDTH + 1];
-    int  result_len;
+    int result_len;
 } display;
 
 static char l_display[DISP_WIDTH + 1];            /* the calculator display */
@@ -40,13 +40,13 @@ static char l_display[DISP_WIDTH + 1];            /* the calculator display */
 //static char lcd_display_bot[LCD_WIDTH + 1];
 //static char operand1[DISP_WIDTH];
 //static char operand2[DISP_WIDTH];
-static int  l_len;                        /* number of displayed characters */
+static int l_len;                        /* number of displayed characters */
 //static int  lcd_top_pos;
 //static int  lcd_bot_pos;
 
-void delay ( int val ){
+void delay(int val) {
     int i;
-    for(i=0;i<val; i++);
+    for (i = 0; i < val; i++);
 }
 
 void wait(void) {
@@ -69,11 +69,11 @@ void display_clear() {
     display.result_len = 0;
 }
 
-void BSP_err(char* msg) {
+void BSP_err(char *msg) {
     display_state = DS_ERR;
     strcpy(display.op1, msg);
     strcpy(l_display, msg);
-}  
+}
 
 void clear(void) {
     BSP_clear();
@@ -104,11 +104,11 @@ void BSP_clear(void) {
 /*..........................................................................*/
 void BSP_insert(int keyId) {
     if (l_len == 0) {
-        l_display[DISP_WIDTH - 1] = (char)keyId;
+        l_display[DISP_WIDTH - 1] = (char) keyId;
         ++l_len;
     } else if (l_len < (DISP_WIDTH - 1)) {
         memmove(&l_display[0], &l_display[1], DISP_WIDTH - 1);
-        l_display[DISP_WIDTH - 1] = (char)keyId;
+        l_display[DISP_WIDTH - 1] = (char) keyId;
         ++l_len;
     }
 
@@ -117,7 +117,7 @@ void BSP_insert(int keyId) {
             if (display.op1_len < DISP_WIDTH - 1) {
                 if (display.op1_len != 0)
                     memmove(&display.op1[0], &display.op1[1], DISP_WIDTH - 1);
-                display.op1[DISP_WIDTH - 1] = (char)keyId;
+                display.op1[DISP_WIDTH - 1] = (char) keyId;
                 ++display.op1_len;
             }
             break;
@@ -125,7 +125,7 @@ void BSP_insert(int keyId) {
             if (display.op2_len < DISP_WIDTH - 1) {
                 if (display.op2_len != 0)
                     memmove(&display.op2[0], &display.op2[1], DISP_WIDTH - 1);
-                display.op2[DISP_WIDTH - 1] = (char)keyId;
+                display.op2[DISP_WIDTH - 1] = (char) keyId;
                 ++display.op2_len;
             }
             break;
@@ -175,7 +175,7 @@ void BSP_display(void) {
 
 /*..........................................................................*/
 double BSP_get_value(void) {
-    return strtod(l_display, (char **)0);
+    return strtod(l_display, (char **) 0);
 }
 
 /*..........................................................................*/
@@ -223,7 +223,7 @@ void BSP_message(char const *msg) {
 
 /*..........................................................................*/
 /* this function is used by the QP embedded systems-friendly assertions */
-void Q_onAssert(char const * const file, int line) {
+void Q_onAssert(char const *const file, int line) {
     printf("Assertion failed in %s, line %d", file, line);
     fflush(stdout);
     _sys_exit(-1);
@@ -233,12 +233,12 @@ int _kbhit(void) {
     /*int i;
       i = 0xFF;
       return(i);*/
-    return(0xFF);
+    return (0xFF);
 }
 
 int _getch() {
     FILE *f;
-    return(fgetc(f));
+    return (fgetc(f));
 }
 
 #ifdef BSP
@@ -246,19 +246,19 @@ void Q_onAssert(char const Q_ROM * const Q_ROM_VAR file, int line) {
     fprintf(stderr, "Assertion failed in %s, line %d", file, line);
     _sys_exit(-1);
 }
+#endif
 
-#endif     
-void BSP_LCD_display_str( char * msg, int line, int pos) {
-    set_cursor (pos,line);
-    lcd_print ( (unsigned char const*) msg);
+void BSP_LCD_display_str(char *msg, int line, int pos) {
+    set_cursor(pos, line);
+    lcd_print((unsigned char const *) msg);
 
-    printf("%s",msg);
+    printf("%s", msg);
 };
 
 /*..........................................................................*/
 void BSP_display_str(char *msg) {
     // printf("%S", msg);
-    BSP_LCD_display_str( msg,0,1);
+    BSP_LCD_display_str(msg, 0, 1);
 
 }
 

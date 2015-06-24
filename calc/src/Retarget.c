@@ -13,54 +13,47 @@
 
 #pragma import(__use_no_semihosting_swi)
 
+extern int send_char(int ch);
 
-extern int  send_char(int ch);  /* in serial.c */
-extern int  getkey0(void);
+/* in serial.c */
+extern int getkey0(void);
 
 
-struct __FILE { int handle; /* Add whatever you need here */ };
+struct __FILE {
+    int handle; /* Add whatever you need here */
+};
 FILE __stdout;
 FILE __stdin;
 FILE __stderr;
 
-//FILE __stdout;
-
-
 int fputc(int ch, FILE *f) {
- 
- if ( ch == 0x0a	)
-	send_char(0x0d);
+    if (ch == 0x0a) {
+        send_char(0x0d);
+    }
 
-	return (send_char(ch));
+    return (send_char(ch));
 }
-
 
 int getch(void) {
-
-return (getkey0()) ;
-
+    return (getkey0());
 }
 
-int fgetc( FILE *f) {
-						    
-	return(getkey0());	  /* in serial.c */
+int fgetc(FILE *f) {
+    return (getkey0());      /* in serial.c */
 }
-
 
 #ifdef FERROR
+/* Your implementation of ferror */
 int ferror(FILE *f) {
-  /* Your implementation of ferror */
-  return EOF;
+    return EOF;
 }
 #endif
 
 void _ttywrch(int ch) {
-
-  send_char(ch);
-  
+    send_char(ch);
 }
 
-
 void _sys_exit(int return_code) {
-label:  goto label;  /* endless loop */
+    label:
+    goto label;  /* endless loop */
 }

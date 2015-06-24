@@ -68,7 +68,7 @@ void _sys_exit(int);
 
 //void BSP_display(uint8_t timeout);
 void BSP_boom(void);
-void BSP_LCD_display_str(char *msg, int pos, int line);
+void BSP_LCD_display_str(char *msg, int line, int pos);
 
 /*  bsp function references for the mcb 2300 */
 

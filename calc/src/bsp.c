@@ -10,78 +10,171 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
   /* Exact-width types. WG14/N843 C99 Standard, Section 7.18.1.1 */
 #include <stdint.h>
 
 #include "LCD.h"
 
 #define DISP_WIDTH  9
-#define LCD_WIDTH 16
+#define LCD_WIDTH  17
+
+static enum display_state_t {
+	DS_CLEAR,
+	DS_OP1,
+	DS_OP2,
+	DS_ERR
+} display_state;
+
+static struct display_t {
+	char op1[DISP_WIDTH + 1];
+	int  op1_len;
+	char op2[DISP_WIDTH + 1];
+	int  op2_len;
+	char op;
+	char result[LCD_WIDTH + 1];
+	int  result_len;
+} display;
 
 static char l_display[DISP_WIDTH + 1];            /* the calculator display */
-static char lcd_display_top[LCD_WIDTH];
-static char lcd_display_bot[LCD_WIDTH];
+//static char lcd_display_top[LCD_WIDTH + 1];
+//static char lcd_display_bot[LCD_WIDTH + 1];
+//static char operand1[DISP_WIDTH];
+//static char operand2[DISP_WIDTH];
 static int  l_len;                        /* number of displayed characters */
+//static int  lcd_top_pos;
+//static int  lcd_bot_pos;
 
 
 /*BSP Init for the MC2300 */
 
-void BSP_Init(void) {
+void delay ( int val ){
+	int i;
+	for(i=0;i<val; i++);
+}
 
-  int i;
-  
+void wait(void) {
+	delay(10000);       /* Wait for initial display           */
+}
+
+void display_clear() {
+  display.op = ' ';
+	
+	memset(display.op1, ' ', DISP_WIDTH);
+	display.op1[DISP_WIDTH] = '\0';
+	display.op1_len = 0;
+	
+	memset(display.op2, ' ', DISP_WIDTH);
+	display.op2[DISP_WIDTH] = '\0';
+	display.op2_len = 0;
+	
+	memset(display.result, ' ', LCD_WIDTH);
+	display.result[LCD_WIDTH] = '\0';
+	display.result_len = 0;
+}
+
+void BSP_err(char* msg) {
+	display_state = DS_ERR;
+	strcpy(display.op1, msg);
+	strcpy(l_display, msg);
+}	
+
+void clear(void) {
+	BSP_clear();
+	display_clear();
+	display_state = DS_CLEAR;
+}
+
+void BSP_Init(void) {
 
  // Init_Timer1( );
   init_serial();                               /* Init UART                   */
-  uart_init_0 ( );
+  uart_init_0();
   lcd_init();
-  lcd_clear();
-  lcd_print ("MCB2300 HSM CALC");
-  set_cursor (0, 1);
-  lcd_print ("EventDrivenSystem");
+  clear();
 
-  for (i = 0; i < 10000; i++);       /* Wait for initial display           */
-
+  wait();
 }
-
 
 /*..........................................................................*/
 void BSP_clear(void) {
     memset(l_display, ' ', DISP_WIDTH - 1);
-	  memset(lcd_display_top, ' ', LCD_WIDTH -1);
     l_display[DISP_WIDTH - 1] = '0';
     l_display[DISP_WIDTH] = '\0';
     l_len = 0;
+		BSP_display();
 }
+
 /*..........................................................................*/
 void BSP_insert(int keyId) {
     if (l_len == 0) {
-        l_display[DISP_WIDTH - 1] = (char)keyId;
-			  lcd_display_top[LCD_WIDTH - 1] = (char)keyId;
-        ++l_len;
-    }
-    else {
-			if (l_len < (DISP_WIDTH - 1)) {
-        memmove(&l_display[0], &l_display[1], DISP_WIDTH - 1);
-        l_display[DISP_WIDTH - 1] = (char)keyId;
-			}
-			if (l_len < (LCD_WIDTH -1)) {
-				memmove(&lcd_display_top[0], &lcd_display_top[1], LCD_WIDTH -1);
-				lcd_display_top[LCD_WIDTH -1] = (char)keyId;
-			}
+      l_display[DISP_WIDTH - 1] = (char)keyId;
+      ++l_len;
+    } else if (l_len < (DISP_WIDTH - 1)) {
+			memmove(&l_display[0], &l_display[1], DISP_WIDTH - 1);
+			l_display[DISP_WIDTH - 1] = (char)keyId;
 			++l_len;
     }
+		
+	  switch (display_state) {
+			case DS_CLEAR:
+				if (display.op1_len < DISP_WIDTH - 1) {
+					if (display.op1_len != 0)
+						memmove(&display.op1[0], &display.op1[1], DISP_WIDTH - 1);
+					display.op1[DISP_WIDTH - 1] = (char)keyId;
+					++display.op1_len;
+				}
+				break;
+			case DS_OP1:
+				if (display.op2_len < DISP_WIDTH - 1) {
+					if (display.op2_len != 0)
+						memmove(&display.op2[0], &display.op2[1], DISP_WIDTH - 1);
+					display.op2[DISP_WIDTH - 1] = (char)keyId;
+					++display.op2_len;
+				}
+				break;
+			case DS_OP2:
+				// op1 = result
+			  // op2 = key
+			  // state = op1
+				break;
+			case DS_ERR:
+				break;
+		}
 }
+
 /*..........................................................................*/
 void BSP_negate(void) {
-    BSP_clear();
-    l_display[DISP_WIDTH - 2] = '-';
+  BSP_clear();
+  l_display[DISP_WIDTH - 2] = '-';
+	display.op1[DISP_WIDTH - 2] = '-';
 }
+
 /*..........................................................................*/
 void BSP_display(void) {
-    printf("\n[%s] ", l_display);
-	  BSP_display_str(lcd_display_top);
- //   fflush(stdout);
+  printf("\n[%s] ", l_display);
+	
+	char lcd_display_top[LCD_WIDTH];
+	char lcd_display_bot[LCD_WIDTH];
+	
+	switch (display_state) {
+		case DS_CLEAR:
+			// top = op1
+		  // bot = '= ' + result
+			break;
+		case DS_OP1:
+		case DS_OP2:
+			// top = op1 + op + op2
+		  // bot = '= ' + result
+			break;
+		case DS_ERR:
+			// top = op1
+		  // bot = clear
+			break;
+	}
+	
+	BSP_LCD_display_str(lcd_display_top, 0, -1);
+	BSP_LCD_display_str(lcd_display_bot, 1, -1);
 }
  
 /*..........................................................................*/
@@ -110,22 +203,23 @@ int BSP_eval(double operand1, int oper, double operand2) {
                 result = operand1 / operand2;
             }
             else {
-            strcpy(l_display, " Error 0 ");        /* error: divide by zero */
-                ok = 0;
+							BSP_err(" Error 0 ");        /* error: divide by zero */
+              ok = 0;
             }
             break;
         }
     }
     if (ok) {
         if ((-0.000001 < result) && (result < 0.000001)) {
-            result = 0.0;
+          result = 0.0;
         }
         if ((-99999999.0 < result) && (result < 99999999.0)) {
-            sprintf(l_display, "%9.6g", result);
+          sprintf(l_display, "%9.6g", result);
+					sprintf(display.result, "%9.6g", result);
         }
         else {
-            strcpy(l_display, " Error 1 ");          /* error: out of range */
-            ok = 0;
+          BSP_err(" Error 1 ");          /* error: out of range */
+          ok = 0;
         }
     }
     return ok;
@@ -161,15 +255,6 @@ int _getch()
 	 FILE *f;
  return	 ( fgetc(  f) );
 }
-	
-
-void delay ( int val ){
-
-int i;
-	for(i=0;i<val; i++);
-
-
-}
 
 
 #ifdef BSP
@@ -178,12 +263,12 @@ void Q_onAssert(char const Q_ROM * const Q_ROM_VAR file, int line) {
     _sys_exit(-1);
 }
 #endif		 
-void  BSP_LCD_display_str( char * str, int line, int pos){
+void  BSP_LCD_display_str( char * msg, int line, int pos){
 
-  set_cursor (line,pos);
-  lcd_print ( (unsigned char const*) str);
+  set_cursor (pos,line);
+  lcd_print ( (unsigned char const*) msg);
 
-  printf("%s",str);
+  printf("%s",msg);
 };
 
 

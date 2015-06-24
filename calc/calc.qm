@@ -2,7 +2,7 @@
 <model version="3.0.1">
  <framework name="qpc"/>
  <package name="CalcHSM" stereotype="0x02">
-  <class name="Calc" superclass="qpc::QHsm">
+  <class name="Calc" superclass="qpc::QActive">
    <attribute name="operand1" type="double" visibility="0x00" properties="0x00"/>
    <attribute name="operator" type="uint8_t" visibility="0x00" properties="0x00"/>
    <statechart>
@@ -516,7 +516,7 @@ BSP_exit();</entry>
   <class name="Class1" superclass="qpc::QActive"/>
   <operation name="Calc_ctor" type="void" visibility="0x00" properties="0x00">
    <parameter name="me" type="Calc*"/>
-   <code>QHsm_ctor(&amp;me-&gt;super, (QStateHandler)&amp;Calc_initial);</code>
+   <code>QActive_ctor(&amp;me-&gt;super, (QStateHandler)&amp;Calc_initial);</code>
   </operation>
   <directory name=".\src">
    <file name="main.c" codec="UTF-8">
@@ -555,6 +555,10 @@ BSP_exit();</entry>
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
+#define SIZE_OF_EVENT_QUEUE  128
+
+QEvt const *l_eventQueue[ SIZE_OF_EVENT_QUEUE];    /* Event queue storage for print time */
+
 
 // Local objects -----------------------------------------------------------*/
 static Calc l_calc;                             /* instantiate Calculator2 */
@@ -563,9 +567,12 @@ static Calc l_calc;                             /* instantiate Calculator2 */
 //..........................................................................*/
 int  main() {
 
-    Calc_ctor(&amp;l_calc);    /* explicitly instantiate the calculator object */
-
     BSP_Init();
+
+    QF_init();    /* initialize the framework and the underlying RT kernel */
+    Calc_ctor(&amp;l_calc);    /* explicitly instantiate the calculator object */
+    QF_poolInit( (void*) &amp;l_eventQueue, sizeof(l_eventQueue), sizeof (l_eventQueue[0]));
+    QActive_start((QActive *)&amp;l_calc, 1, l_eventQueue, Q_DIM(l_eventQueue), (void *)0, 0, (QEvt *)0);
 
     printf(&quot;Calculator example, QEP version: %s\n&quot;
            &quot;Press '0' .. '9'     to enter a digit\n&quot;
@@ -579,9 +586,8 @@ int  main() {
            &quot;Press 'e' or 'E'     to Cancel Entry\n&quot;
            &quot;Press &lt;Esc&gt;          to quit.\n\n&quot;,
            QEP_getVersion());
-                 
 
-    QHsm_init((QHsm *)&amp;l_calc, (QEvent *)0);  /* trigger initial transition */
+    QF_run();                                     /* run the QF application */
 
     for (;;) {                                                /* event loop */
         CalcEvt e;                                      /* Calculator event */

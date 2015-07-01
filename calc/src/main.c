@@ -59,7 +59,7 @@ static Calc l_calc;                             /* instantiate Calculator2 */
 int  main() {
     Calc_ctor(&l_calc);    /* explicitly instantiate the calculator object */
 
-    BSP_Init();
+    BSP_Init(&l_calc);
 
     printf("Calculator example, QEP version: %s\n"
            "Press '0' .. '9'     to enter a digit\n"

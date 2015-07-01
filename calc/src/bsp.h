@@ -117,6 +117,8 @@ void BSP_display_str(char *msg);
 
 void BSP_exit(void);
 
-void BSP_Init(void);
+void BSP_Init(Calc *calc);
+
+void BSP_onKeyboardInput(int buf);
 
 #endif                                                             /* bsp_h */

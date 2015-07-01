@@ -43,6 +43,7 @@ static char l_display[DISP_WIDTH + 1];            /* the calculator display */
 static int l_len;                        /* number of displayed characters */
 //static int  lcd_top_pos;
 //static int  lcd_bot_pos;
+static Calc *me;
 
 void delay(int val) {
     int i;
@@ -82,7 +83,8 @@ void clear(void) {
 }
 
 /*BSP Init for the MC2300 */
-void BSP_Init(void) {
+void BSP_Init(Calc *calc) {
+    me = calc;
     // Init_Timer1( );
     init_serial();                               /* Init UART                   */
     uart_init_0();
@@ -278,4 +280,74 @@ void QF_onIdle(void) {
 
 void QF_onStartup(void) {
     ;
+}
+
+void BSP_onKeyboardInput(int buf) {
+    CalcEvt e;                                      /* Calculator event */
+    e.key_code = (uint8_t) buf;             /* get a char with echo */
+    if (e.key_code != 0) {
+        switch (e.key_code) {
+            case 'c':                         /* intentionally fall through */
+            case 'C': {
+                ((QEvent * ) & e)->sig = C_SIG;
+                break;
+            }
+            case 'e':                         /* intentionally fall through */
+            case 'E': {
+                ((QEvent * ) & e)->sig = CE_SIG;
+                break;
+            }
+            case '0': {
+                ((QEvent * ) & e)->sig = DIGIT_0_SIG;
+                break;
+            }
+            case '1':                         /* intentionally fall through */
+            case '2':                         /* intentionally fall through */
+            case '3':                         /* intentionally fall through */
+            case '4':                         /* intentionally fall through */
+            case '5':                         /* intentionally fall through */
+            case '6':                         /* intentionally fall through */
+            case '7':                         /* intentionally fall through */
+            case '8':                         /* intentionally fall through */
+            case '9': {
+                ((QEvent * ) & e)->sig = DIGIT_1_9_SIG;
+                break;
+            }
+            case '.': {
+                ((QEvent * ) & e)->sig = POINT_SIG;
+                break;
+            }
+            case '+':                         /* intentionally fall through */
+            case '-':                         /* intentionally fall through */
+            case '*':                         /* intentionally fall through */
+            case '/': {
+                ((QEvent * ) & e)->sig = OPER_SIG;
+                break;
+            }
+            case '%': {                              /* new event for Calc2 */
+                ((QEvent * ) & e)->sig = PERCENT_SIG;
+                break;
+            }
+            case '=':                         /* intentionally fall through */
+            case '\n':
+            case '\r': {                                       /* Enter key */
+                ((QEvent * ) & e)->sig = EQUALS_SIG;
+                break;
+            }
+            case '\33': {                                        /* ESC key */
+                ((QEvent * ) & e)->sig = OFF_SIG;
+                break;
+            }
+            default: {
+                ((QEvent * ) & e)->sig = 0;                   /* invalid event */
+                break;
+            }
+        }
+
+        if (me && ((QEvent * ) & e)->sig != 0) {           /* valid event generated? */
+            QActive_postFIFO((QActive *)me, (QEvent * ) & e); /* dispatch event */
+            BSP_display();                                  /* show the display */
+            printf(": ");
+        }
+    }
 }

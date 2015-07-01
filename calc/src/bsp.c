@@ -15,15 +15,13 @@
 
 #include "../bsp/LCD.h"
 
-#define DISP_WIDTH  9
-#define LCD_WIDTH  17
+#define DISP_WIDTH  7
+#define LCD_WIDTH  16
 
-static enum display_state_t {
-    DS_CLEAR,
-    DS_OP1,
-    DS_OP2,
-    DS_ERR
-} display_state;
+static char lcd_display_top[LCD_WIDTH + 1];
+static char lcd_display_bot[LCD_WIDTH + 1];
+
+static enum display_state_t display_state;
 
 static struct display_t {
     char op1[DISP_WIDTH + 1];
@@ -36,13 +34,7 @@ static struct display_t {
 } display;
 
 static char l_display[DISP_WIDTH + 1];            /* the calculator display */
-//static char lcd_display_top[LCD_WIDTH + 1];
-//static char lcd_display_bot[LCD_WIDTH + 1];
-//static char operand1[DISP_WIDTH];
-//static char operand2[DISP_WIDTH];
 static int l_len;                        /* number of displayed characters */
-//static int  lcd_top_pos;
-//static int  lcd_bot_pos;
 
 void delay(int val) {
     int i;
@@ -56,17 +48,21 @@ void wait(void) {
 void display_clear() {
     display.op = ' ';
 
-    memset(display.op1, ' ', DISP_WIDTH);
+	  memset(display.op1, ' ', DISP_WIDTH);
     display.op1[DISP_WIDTH] = '\0';
     display.op1_len = 0;
 
-    memset(display.op2, ' ', DISP_WIDTH);
+	  memset(display.op2, ' ', DISP_WIDTH);
     display.op2[DISP_WIDTH] = '\0';
     display.op2_len = 0;
 
-    memset(display.result, ' ', LCD_WIDTH);
+		memset(display.result, ' ', LCD_WIDTH);
     display.result[LCD_WIDTH] = '\0';
     display.result_len = 0;
+}
+
+void display_state_trans(enum display_state_t state) {
+	display_state = state;
 }
 
 void BSP_err(char *msg) {
@@ -76,10 +72,21 @@ void BSP_err(char *msg) {
 }
 
 void clear(void) {
-    BSP_clear();
     display_clear();
-    display_state = DS_CLEAR;
+    BSP_clear();
+    display_state_trans(DS_CLEAR);
 }
+/*
+char get_operator(uint8_t keyId) {
+	switch(keyId) {
+		case 
+	}
+	
+	#define KEY_PLUS    '+'
+#define KEY_MINUS   '-'
+#define KEY_MULT    '*'
+#define KEY_DIVIDE  '/'
+}*/
 
 /*BSP Init for the MC2300 */
 void BSP_Init(void) {
@@ -87,6 +94,10 @@ void BSP_Init(void) {
     init_serial();                               /* Init UART                   */
     uart_init_0();
     lcd_init();
+	
+	  memset(lcd_display_top, ' ', LCD_WIDTH);
+    lcd_display_top[LCD_WIDTH] = '\0';
+	
     clear();
 
     wait();
@@ -121,7 +132,7 @@ void BSP_insert(int keyId) {
                 ++display.op1_len;
             }
             break;
-        case DS_OP1:
+        case DS_OP:
             if (display.op2_len < DISP_WIDTH - 1) {
                 if (display.op2_len != 0)
                     memmove(&display.op2[0], &display.op2[1], DISP_WIDTH - 1);
@@ -130,10 +141,13 @@ void BSP_insert(int keyId) {
             }
             break;
         case DS_OP2:
-            // op1 = result
-            // op2 = key
-            // state = op1
-            break;
+					memmove(display.op1, display.result, DISP_WIDTH - 1);
+					display.op1_len = display.result_len;
+				  // fallthrough
+				case DS_OP1:
+					display.op = (char) keyId;//get_operator(keyId);
+					display_state = DS_OP;
+					break;
         case DS_ERR:
             break;
     }
@@ -148,25 +162,21 @@ void BSP_negate(void) {
 
 /*..........................................................................*/
 void BSP_display(void) {
+	
     printf("\n[%s] ", l_display);
 
-    char lcd_display_top[LCD_WIDTH];
-    char lcd_display_bot[LCD_WIDTH];
-
     switch (display_state) {
-        case DS_CLEAR:
-            // top = op1
-            // bot = '= ' + result
-            break;
-        case DS_OP1:
-        case DS_OP2:
-            // top = op1 + op + op2
-            // bot = '= ' + result
-            break;
         case DS_ERR:
-            // top = op1
-            // bot = clear
+						memmove(&lcd_display_top[0], &display.op1[0], DISP_WIDTH);
             break;
+				default:
+						memmove(lcd_display_top, display.op1, DISP_WIDTH);
+						lcd_display_top[DISP_WIDTH + 1] = display.op;
+						memmove(&lcd_display_top[DISP_WIDTH + 3], display.op2, DISP_WIDTH);
+						lcd_display_bot[0] = '=';
+						lcd_display_bot[1] = ' ';
+						memmove(&lcd_display_bot[2], display.result, LCD_WIDTH);
+						break;
     }
 
     BSP_LCD_display_str(lcd_display_top, 0, -1);

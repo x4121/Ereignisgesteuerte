@@ -57,6 +57,7 @@ static Calc l_calc;                             /* instantiate Calculator2 */
 
 //..........................................................................*/
 int  main() {
+
     Calc_ctor(&l_calc);    /* explicitly instantiate the calculator object */
 
     BSP_Init();
@@ -74,7 +75,9 @@ int  main() {
            "Press <Esc>          to quit.\n\n",
            QEP_getVersion());
 
+
     QHsm_init((QHsm *)&l_calc, (QEvent *)0);  /* trigger initial transition */
+
     for (;;) {                                                /* event loop */
         CalcEvt e;                                      /* Calculator event */
 

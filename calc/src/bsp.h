@@ -33,6 +33,16 @@
 #define KEY_MULT    '*'
 #define KEY_DIVIDE  '/'
 
+enum display_state_t {
+    DS_CLEAR,
+    DS_OP1,
+    DS_OP2,
+	  DS_OP,
+    DS_ERR
+};
+
+void display_state_trans(enum display_state_t state);
+
 void BSP_clear(void);
 
 void BSP_negate(void);

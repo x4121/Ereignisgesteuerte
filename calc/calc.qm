@@ -85,10 +85,12 @@ return Q_SUPER(&amp;Calc_On);</action>
       </state_glyph>
      </state>
      <state name="Operand2">
-      <entry>BSP_message(&quot;operand2-ENTRY;&quot;);</entry>
+      <entry>BSP_message(&quot;operand2-ENTRY;&quot;);
+display_state_trans(DS_OP);</entry>
       <exit>BSP_message(&quot;operand2-EXIT;&quot;);</exit>
       <tran trig="CE" target="../../9">
-       <action>BSP_clear();</action>
+       <action>BSP_clear();
+display_state_trans(DS_OP1);</action>
        <tran_glyph conn="54,111,2,0,2,-44,-68,9,4">
         <action box="-3,0,6,2"/>
        </tran_glyph>
@@ -97,7 +99,8 @@ return Q_SUPER(&amp;Calc_On);</action>
        <choice target="../../../9">
         <guard brief="isValid">BSP_eval(me-&gt;operand1, me-&gt;operator, BSP_get_value())</guard>
         <action>me-&gt;operand1 = BSP_get_value();
-me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
+me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;
+display_state_trans(DS_OP2);</action>
         <choice_glyph conn="57,117,5,0,-48,-73,11,5">
          <action box="-7,-2,10,2"/>
         </choice_glyph>
@@ -221,7 +224,8 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
       </tran>
       <tran trig="OPER" target="../../9">
        <action>me-&gt;operand1 = BSP_get_value();
-me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
+me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;
+display_state_trans(DS_OP1);</action>
        <tran_glyph conn="65,71,2,0,2,-36,-29,-5,5">
         <action box="-36,0,6,2"/>
        </tran_glyph>
@@ -378,7 +382,8 @@ return Q_SUPER(&amp;Calc_Ready);</action>
        </state_glyph>
       </state>
       <state name="Result">
-       <entry>BSP_message(&quot;result-ENTRY;&quot;);</entry>
+       <entry>BSP_message(&quot;result-ENTRY;&quot;);
+display_state_trans(DS_OP2);</entry>
        <exit>BSP_message(&quot;result-EXIT;&quot;);</exit>
        <state_glyph node="92,19,8,11">
         <entry box="1,2,6,2"/>
@@ -391,7 +396,8 @@ return Q_SUPER(&amp;Calc_Ready);</action>
       </state_glyph>
      </state>
      <state name="Error">
-      <entry>BSP_message(&quot;error-ENTRY;&quot;);</entry>
+      <entry>BSP_message(&quot;error-ENTRY;&quot;);
+display_state_trans(DS_ERR);</entry>
       <exit>BSP_message(&quot;error-EXIT;&quot;);</exit>
       <state_glyph node="96,100,9,11">
        <entry box="1,2,6,2"/>
@@ -422,7 +428,8 @@ return Q_SUPER(&amp;Calc_On);</action>
        </tran_glyph>
       </tran>
       <tran trig="CE" target="../../9">
-       <action>BSP_clear();</action>
+       <action>BSP_clear();
+display_state_trans(DS_OP1);</action>
        <tran_glyph conn="17,103,2,0,3,-6,-59,7,2">
         <action box="-6,1,6,2"/>
        </tran_glyph>
@@ -450,7 +457,8 @@ return Q_SUPER(&amp;Calc_On);</action>
       </state_glyph>
      </state>
      <state name="OpEntered">
-      <entry>BSP_message(&quot;opEntered-ENTRY;&quot;);</entry>
+      <entry>BSP_message(&quot;opEntered-ENTRY;&quot;);
+BSP_insert(me-&gt;operator);</entry>
       <exit>BSP_message(&quot;opEntered-EXIT;&quot;);</exit>
       <tran trig="OPER">
        <choice target="../../../8">

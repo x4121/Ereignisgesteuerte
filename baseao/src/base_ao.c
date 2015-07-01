@@ -137,8 +137,6 @@ QState BaseAO_idle(BaseAO *me, QEvt const *e) {
 }
 
 int main() {
-
-
     BSP_Init();
     BSP_LCD_display_str("Base ActiveObj", 0, 0);
     BSP_LCD_display_str("EventDrivenSys", 0, 1);
@@ -150,7 +148,6 @@ int main() {
     QF_poolInit((void *) &l_PrintEvtQSto, sizeof(l_PrintEvtQSto), sizeof(BasePrintEvt));
     QActive_start((QActive * ) & l_BaseAO, 1, l_PrintEvtQSto, Q_DIM(l_PrintEvtQSto),
                   (void *) 0, 0, (QEvt *) 0);
-
 
     QF_run();                                     /* run the QF application */
 

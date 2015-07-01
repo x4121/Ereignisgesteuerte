@@ -85,8 +85,11 @@ void clear(void) {
 /*BSP Init for the MC2300 */
 void BSP_Init(Calc *calc) {
     me = calc;
+	
+		Timer0_Init( );
     // Init_Timer1( );
     init_serial();                               /* Init UART                   */
+		ADC_Init();
     uart_init_0();
     lcd_init();
     clear();
@@ -150,10 +153,9 @@ void BSP_negate(void) {
 
 /*..........................................................................*/
 void BSP_display(void) {
-    printf("\n[%s] ", l_display);
-
-    char lcd_display_top[LCD_WIDTH];
+	  char lcd_display_top[LCD_WIDTH];
     char lcd_display_bot[LCD_WIDTH];
+    printf("\n[%s] ", l_display);
 
     switch (display_state) {
         case DS_CLEAR:

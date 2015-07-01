@@ -8,10 +8,10 @@
   <item name="grid">3</item>
  </group>
  <group name="windows">
-  <item id="CalcHSM::Calc::SM">0,0,843,670,*</item>
-  <item id="CalcHSM::.\src::main.c">0,24,843,670</item>
-  <item id="CalcHSM::.\src::calc.c">0,0,596,300</item>
-  <item id="CalcHSM::.\src::calc.h">0,394,596,300</item>
+  <item id="CalcHSM::Calc::SM">0,0,843,721,*</item>
+  <item id="CalcHSM::.\src::main.c">0,24,843,721</item>
+  <item id="CalcHSM::.\src::calc.h">0,0,596,300</item>
+  <item id="CalcHSM::.\src::calc.c">0,300,596,300</item>
  </group>
  <group name="search">
   <item name="options">4129280</item>

@@ -121,4 +121,8 @@ void BSP_Init(Calc *calc);
 
 void BSP_onKeyboardInput(int buf);
 
+void BSP_CE(void);
+
+void BSP_C(void);
+
 #endif                                                             /* bsp_h */

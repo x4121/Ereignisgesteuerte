@@ -351,3 +351,23 @@ void BSP_onKeyboardInput(int buf) {
         }
     }
 }
+
+void BSP_CE(void) {
+    CalcEvt e;
+    ((QEvent * ) & e)->sig = C_SIG;
+    if (me && ((QEvent * ) & e)->sig != 0) {           /* valid event generated? */
+        QActive_postFIFO((QActive *) me, (QEvent * ) & e); /* dispatch event */
+        BSP_display();                                  /* show the display */
+        printf(": ");
+    }
+}
+
+void BSP_C(void) {
+    CalcEvt e;
+    ((QEvent * ) & e)->sig = CE_SIG;
+    if (me && ((QEvent * ) & e)->sig != 0) {           /* valid event generated? */
+        QActive_postFIFO((QActive *) me, (QEvent * ) & e); /* dispatch event */
+        BSP_display();                                  /* show the display */
+        printf(": ");
+    }
+}

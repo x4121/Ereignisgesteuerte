@@ -1,11 +1,21 @@
 #include <stdio.h>
 #include <LPC23xx.H>                    /* LPC23xx definitions                */
 
+void BSP_C(void);
+void BSP_CE(void);
+
 static short AD_last;                   /* Last converted value               */
 
 /* A/D IRQ: Executed when A/D Conversion is done                              */
 __irq void ADC_IRQHandler(void) {
-    AD_last = (AD0DR0 >> 6) & 0x3FF;    /* Read Conversion Result             */
+    short current = (AD0DR0 >> 6) & 0x3FF;    /* Read Conversion Result             */
+    if (current < AD_last - 10) {
+        AD_last = current;
+        BSP_C();
+    } else if (current > AD_last + 10) {
+        AD_last = current;
+        BSP_CE();
+    }
 
     VICVectAddr = 0;                    /* Acknowledge Interrupt              */
 }

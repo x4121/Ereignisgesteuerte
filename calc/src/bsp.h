@@ -28,6 +28,8 @@
 #ifndef bsp_h
 #define bsp_h
 
+#include "calc.h"
+
 #define KEY_PLUS    '+'
 #define KEY_MINUS   '-'
 #define KEY_MULT    '*'
@@ -61,12 +63,16 @@ void BSP_message(char const *state);
 
 /*  bsp function references for the mcb 2300 */
 
+void Timer0_Init(void);
+
 void Init_Timer1(void);
 
 void init_serial(void);
 
 /* Init UART                   */
 void uart_init_0(void);
+
+void ADC_Init(void);
 
 void _sys_exit(int);
 
@@ -127,6 +133,16 @@ void BSP_display_str(char *msg);
 
 void BSP_exit(void);
 
-void BSP_Init(void);
+void BSP_Init(Calc *calc);
+
+void BSP_onKeyboardInput(int buf);
+
+void BSP_CE(void);
+
+void BSP_C(void);
+
+void ADC_IRQ_ENABLE(void);
+
+void ADC_IRQ_DISABLE(void);
 
 #endif                                                             /* bsp_h */

@@ -362,7 +362,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>QEP QM_TICK</Define>
+              <Define>QEP QM_TICK QM_ActiveObject</Define>
               <Undefine></Undefine>
               <IncludePath>.\bombqmbsp;..\..\..\..\..\..\..\CPU_Platforms\ARM\ARM7\MCB2300\include;..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\ports\arm7\Keil;..\..\..\..\..\..\..\Framewworks\Quantum\qpc_5.3.1\qpc\include</IncludePath>
             </VariousControls>
@@ -447,25 +447,20 @@
               <FileType>1</FileType>
               <FilePath>.\bsp\timer.c</FilePath>
             </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp\adc.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>app</GroupName>
           <Files>
             <File>
-              <FileName>calc1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\calc1.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\bsp.c</FilePath>
-            </File>
-            <File>
-              <FileName>calc2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\calc2.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>

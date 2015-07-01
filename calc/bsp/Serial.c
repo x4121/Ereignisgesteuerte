@@ -98,7 +98,7 @@ __irq void uart_isr0(void) {
     keystroke = ch;
 
 #ifdef QM_ActiveObject
-	BSP_onKeyboardInput(buf);
+	  BSP_onKeyboardInput(buf);
 #endif
 
     VICVectAddr = 0;                      /* Acknowledge Interrupt              */

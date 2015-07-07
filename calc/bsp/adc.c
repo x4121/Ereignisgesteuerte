@@ -33,17 +33,18 @@ void ADC_Init(void) {
     AD0CR = 0x00200301;                        /* Power up, PCLK/4, sel AD0.0 */
     VICVectAddr18 = (unsigned long) ADC_IRQHandler;/* Set Interrupt Vector    */
     VICVectCntl18 = 14;                        /* use it for ADC Interrupt    */
-		//VICIntEnable = (1 << 18);                  /* Enable ADC Interrupt        */
-    //VICIntEnClr = (1 << 18);                   /* Disable ADC Interrupt        */
+    VICIntEnClr = (1 << 18);                   /* Disable ADC Interrupt       */
 }
 
 
+/* Enable ADC Interrupt   */
 void ADC_IRQ_ENABLE(void) {
-		VICIntEnable = (1 << 18);                  /* Enable ADC Interrupt        */
+    VICIntEnable = (1 << 18);
 }
 
+/* Disable ADC Interrupt  */
 void ADC_IRQ_DISABLE(void) {
-		VICIntEnClr = (1 << 18);                  /* Disable ADC Interrupt        */
+    VICIntEnClr = (1 << 18);
 }
 
 

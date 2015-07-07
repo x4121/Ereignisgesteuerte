@@ -39,7 +39,7 @@ enum display_state_t {
     DS_CLEAR,
     DS_OP1,
     DS_OP2,
-	  DS_OP,
+	DS_OP,
     DS_ERR
 };
 

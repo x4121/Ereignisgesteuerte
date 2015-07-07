@@ -356,7 +356,7 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
       </tran>
       <state name="Begin">
        <entry>BSP_message(&quot;begin-ENTRY;&quot;);
-clear();</entry>
+//clear();</entry>
        <exit>BSP_message(&quot;begin-EXIT;&quot;);</exit>
        <tran trig="OPER">
         <choice target="../../../../3">
@@ -595,6 +595,7 @@ int main() {
     QF_poolInit((void *) &amp;l_eventQueue, sizeof(l_eventQueue), sizeof(l_eventQueue[0]));
     QActive_start((QActive * ) &amp; l_calc, 1, l_eventQueue, Q_DIM(l_eventQueue), (void *) 0, 0, (QEvt *) 0);
     BSP_Init(&amp;l_calc);
+
 
     printf(&quot;Calculator example, QEP version: %s\n&quot;
            &quot;Press '0' .. '9'     to enter a digit\n&quot;

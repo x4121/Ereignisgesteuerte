@@ -15,8 +15,9 @@
 
 #include "../bsp/LCD.h"
 
-#define DISP_WIDTH  7
-#define LCD_WIDTH  16
+#define DISP_WIDTH    7
+#define LCD_WIDTH    16
+#define RESULT_WIDTH 14
 
 static char lcd_display_top[LCD_WIDTH + 1];
 static char lcd_display_bot[LCD_WIDTH + 1];
@@ -29,7 +30,7 @@ static struct display_t {
     char op2[DISP_WIDTH + 1];
     int op2_len;
     char op;
-    char result[LCD_WIDTH + 1];
+    char result[RESULT_WIDTH + 1];
     int result_len;
 } display;
 
@@ -57,8 +58,8 @@ void display_clear() {
     display.op2[DISP_WIDTH] = '\0';
     display.op2_len = 0;
 
-		memset(display.result, ' ', LCD_WIDTH);
-    display.result[LCD_WIDTH] = '\0';
+		memset(display.result, ' ', RESULT_WIDTH);
+    display.result[RESULT_WIDTH] = '\0';
     display.result_len = 0;
 }
 
@@ -94,14 +95,16 @@ void BSP_Init(Calc *calc) {
     me = calc;
 	
 		Timer0_Init( );
-    // Init_Timer1( );
+    //Init_Timer1( );
     init_serial();                               /* Init UART                   */
-		ADC_Init();
+		//ADC_Init();
     uart_init_0();
     lcd_init();
 	
 	  memset(lcd_display_top, ' ', LCD_WIDTH);
     lcd_display_top[LCD_WIDTH] = '\0';
+	  memset(lcd_display_bot, ' ', LCD_WIDTH);
+    lcd_display_bot[LCD_WIDTH] = '\0';
 	
     clear();
 
@@ -167,25 +170,23 @@ void BSP_negate(void) {
 
 /*..........................................................................*/
 void BSP_display(void) {
-    char lcd_display_top[LCD_WIDTH];
-    char lcd_display_bot[LCD_WIDTH];
     printf("\n[%s] ", l_display);
     switch (display_state) {
         case DS_ERR:
-						memmove(&lcd_display_top[0], &display.op1[0], DISP_WIDTH);
+						memset(lcd_display_top, ' ', LCD_WIDTH);
+						memmove(lcd_display_top, display.op1, DISP_WIDTH);
             break;
-				default:
+				default:				
 						memmove(lcd_display_top, display.op1, DISP_WIDTH);
 						lcd_display_top[DISP_WIDTH + 1] = display.op;
-						memmove(&lcd_display_top[DISP_WIDTH + 3], display.op2, DISP_WIDTH);
+						memmove(&lcd_display_top[DISP_WIDTH + 2], display.op2, DISP_WIDTH);
 						lcd_display_bot[0] = '=';
 						lcd_display_bot[1] = ' ';
-						memmove(&lcd_display_bot[2], display.result, LCD_WIDTH);
+						memmove(&lcd_display_bot[2], display.result, RESULT_WIDTH);
 						break;
     }
-
-    BSP_LCD_display_str(lcd_display_top, 0, -1);
-    BSP_LCD_display_str(lcd_display_bot, 1, -1);
+		BSP_LCD_display_str(lcd_display_top, 0, 0);
+    BSP_LCD_display_str(lcd_display_bot, 1, 0);
 }
 
 /*..........................................................................*/

@@ -48,20 +48,30 @@ void wait(void) {
     delay(10000);       /* Wait for initial display           */
 }
 
-void display_clear() {
-    display.op = ' ';
-
+void display_clear_op1() {
 	  memset(display.op1, ' ', DISP_WIDTH);
     display.op1[DISP_WIDTH] = '\0';
     display.op1_len = 0;
+}
 
+void display_clear_op2() {
 	  memset(display.op2, ' ', DISP_WIDTH);
     display.op2[DISP_WIDTH] = '\0';
     display.op2_len = 0;
+}
 
+void display_clear_result() {
 		memset(display.result, ' ', RESULT_WIDTH);
     display.result[RESULT_WIDTH] = '\0';
     display.result_len = 0;
+}
+
+void display_clear() {
+    display.op = ' ';
+
+	  display_clear_op1();
+		display_clear_op2();
+		display_clear_result();
 }
 
 void display_state_trans(enum display_state_t state) {
@@ -98,7 +108,7 @@ void BSP_Init(Calc *calc) {
 		Timer0_Init( );
     //Init_Timer1( );
     init_serial();                               /* Init UART                   */
-		//ADC_Init();
+		ADC_Init();
     uart_init_0();
     lcd_init();
 	
@@ -150,10 +160,12 @@ void BSP_insert(int keyId) {
             }
             break;
         case DS_OP2:
-					memmove(display.op1, display.result, DISP_WIDTH - 1);
+					memmove(display.op1, &display.result[2], DISP_WIDTH);
 					display.op1_len = display.result_len;
+				
 				  // fallthrough
 				case DS_OP1:
+					display_clear_op2();
 					display.op = (char) keyId;//get_operator(keyId);
 					display_state = DS_OP;
 					break;
@@ -167,6 +179,12 @@ void BSP_negate(void) {
     BSP_clear();
     l_display[DISP_WIDTH - 2] = '-';
     display.op1[DISP_WIDTH - 2] = '-';
+}
+
+void BSP_negate2(void) {
+    BSP_clear();
+    l_display[DISP_WIDTH - 2] = '-';
+    display.op2[DISP_WIDTH - 2] = '-';
 }
 
 /*..........................................................................*/
@@ -327,10 +345,14 @@ void BSP_onKeyboardInput(int buf) {
                 ((QEvent * ) & e)->sig = DIGIT_1_9_SIG;
                 break;
             }
+						case ',': {
+								e.key_code = (uint8_t) '.';
+							// fall through
+						}
             case '.': {
-                ((QEvent * ) & e)->sig = POINT_SIG;
+							((QEvent * ) & e)->sig = POINT_SIG;
                 break;
-            }
+						}
             case '+':                         /* intentionally fall through */
             case '-':                         /* intentionally fall through */
             case '*':                         /* intentionally fall through */
@@ -367,21 +389,15 @@ void BSP_onKeyboardInput(int buf) {
 }
 
 void BSP_CE(void) {
-    CalcEvt e;
     ((QEvent * ) & e)->sig = C_SIG;
     if (me && ((QEvent * ) & e)->sig != 0) {           /* valid event generated? */
-        QActive_postFIFO((QActive *) me, (QEvent * ) & e); /* dispatch event */
-        BSP_display();                                  /* show the display */
-        printf(": ");
+        QActive_postFIFO((QActive *)me, (QEvent * ) & e); /* dispatch event */
     }
 }
 
 void BSP_C(void) {
-    CalcEvt e;
     ((QEvent * ) & e)->sig = CE_SIG;
     if (me && ((QEvent * ) & e)->sig != 0) {           /* valid event generated? */
         QActive_postFIFO((QActive *) me, (QEvent * ) & e); /* dispatch event */
-        BSP_display();                                  /* show the display */
-        printf(": ");
     }
 }

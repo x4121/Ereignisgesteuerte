@@ -7,15 +7,15 @@
    <attribute name="operator" type="uint8_t" visibility="0x00" properties="0x00"/>
    <statechart>
     <initial target="../1">
-     <action>BSP_message(&quot;on-INIT;&quot;);</action>
+     <action>BSP_message(&quot;on-INIT;&quot;);
+QTimeEvt_postEvery(&amp;BaseTimer.super, (QActive *) me, 0x10);
+ADC_IRQ_ENABLE();</action>
      <initial_glyph conn="3,16,5,3,2,1,2">
       <action box="0,-2,6,2"/>
      </initial_glyph>
     </initial>
     <state name="On">
-     <entry>BSP_message(&quot;on-ENTRY;&quot;);
-ADC_IRQ_ENABLE();
-QTimeEvt_postEvery(&amp;BaseTimer.super, (QActive *) me, 0x10);</entry>
+     <entry>BSP_message(&quot;on-ENTRY;&quot;);</entry>
      <exit>BSP_message(&quot;on-EXIT;&quot;);</exit>
      <initial target="../7">
       <action>BSP_message(&quot;ready-INIT;&quot;);</action>
@@ -24,8 +24,8 @@ QTimeEvt_postEvery(&amp;BaseTimer.super, (QActive *) me, 0x10);</entry>
       </initial_glyph>
      </initial>
      <tran trig="C" target="..">
-      <action>BSP_clear();</action>
-      <tran_glyph conn="107,25,1,1,8,-8,-8">
+      <action>clear();</action>
+      <tran_glyph conn="107,25,1,1,8,-6,-8">
        <action box="0,-2,6,2"/>
       </tran_glyph>
      </tran>
@@ -173,7 +173,8 @@ display_state_trans(DS_OP2);</action>
        </state_glyph>
       </state>
       <state name="Zero2">
-       <entry>BSP_message(&quot;zero2-ENTRY;&quot;);</entry>
+       <entry>BSP_message(&quot;zero2-ENTRY;&quot;);
+BSP_insert('0');</entry>
        <exit>BSP_message(&quot;zero1-EXIT;&quot;);</exit>
        <tran trig="DIGIT_0">
         <tran_glyph conn="52,97,3,-1,7">
@@ -251,7 +252,8 @@ display_state_trans(DS_OP1);</action>
        </tran_glyph>
       </tran>
       <state name="Zero1">
-       <entry>BSP_message(&quot;zero1-ENTRY;&quot;);</entry>
+       <entry>BSP_message(&quot;zero1-ENTRY;&quot;);
+BSP_insert('0');</entry>
        <exit>BSP_message(&quot;zero1-EXIT;&quot;);</exit>
        <tran trig="DIGIT_0">
         <tran_glyph conn="52,58,3,-1,7">
@@ -341,20 +343,20 @@ display_state_trans(DS_OP1);</action>
        </initial_glyph>
       </initial>
       <tran trig="DIGIT_0" target="../../6/3">
-       <action>BSP_clear();</action>
+       <action>clear();</action>
        <tran_glyph conn="56,32,2,0,17">
         <action box="0,1,11,2"/>
        </tran_glyph>
       </tran>
       <tran trig="DIGIT_1_9" target="../../6/4">
-       <action>BSP_clear();
+       <action>clear();
 BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="65,32,2,0,17">
         <action box="0,1,11,2"/>
        </tran_glyph>
       </tran>
       <tran trig="POINT" target="../../6/5">
-       <action>BSP_clear();
+       <action>clear();
 BSP_insert((int)'0');
 BSP_insert((int)'.');</action>
        <tran_glyph conn="80,32,2,0,17">
@@ -363,7 +365,8 @@ BSP_insert((int)'.');</action>
       </tran>
       <tran trig="OPER" target="../../10">
        <action>me-&gt;operand1 = BSP_get_value();
-me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
+me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;
+display_state_trans(DS_OP2);</action>
        <tran_glyph conn="22,32,2,0,17">
         <action box="0,1,9,2"/>
        </tran_glyph>
@@ -421,7 +424,7 @@ display_state_trans(DS_ERR);</entry>
      </state>
      <state name="Negated2">
       <entry>BSP_message(&quot;negated2-ENTRY;&quot;);
-BSP_negate();</entry>
+BSP_negate2();</entry>
       <exit>BSP_message(&quot;negated2-EXIT;&quot;);</exit>
       <tran trig="OPER">
        <choice>
@@ -473,7 +476,8 @@ display_state_trans(DS_OP1);</action>
      </state>
      <state name="OpEntered">
       <entry>BSP_message(&quot;opEntered-ENTRY;&quot;);
-BSP_insert(me-&gt;operator);</entry>
+BSP_insert(me-&gt;operator);
+display_clear_result();</entry>
       <exit>BSP_message(&quot;opEntered-EXIT;&quot;);</exit>
       <tran trig="OPER">
        <choice target="../../../9">

@@ -49,6 +49,8 @@ void BSP_clear(void);
 
 void BSP_negate(void);
 
+void BSP_negate2(void);
+
 void BSP_insert(int keyId);
 
 double BSP_get_value(void);

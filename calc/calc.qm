@@ -14,9 +14,10 @@
     </initial>
     <state name="On">
      <entry>BSP_message(&quot;on-ENTRY;&quot;);
-ADC_IRQ_ENABLE();</entry>
+ADC_IRQ_ENABLE();
+QTimeEvt_postEvery(&amp;BaseTimer.super, (QActive *) me, 0x10);</entry>
      <exit>BSP_message(&quot;on-EXIT;&quot;);</exit>
-     <initial target="../6">
+     <initial target="../7">
       <action>BSP_message(&quot;ready-INIT;&quot;);</action>
       <initial_glyph conn="13,17,5,3,6">
        <action box="0,-2,6,2"/>
@@ -31,6 +32,19 @@ ADC_IRQ_ENABLE();</entry>
      <tran trig="OFF" target="../../2">
       <tran_glyph conn="107,32,1,0,7,16">
        <action box="0,-2,6,2"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="TICK">
+      <action>((TimerEvt *) e)-&gt;clk_ctr++;
+if (((TimerEvt *) e)-&gt;clk_ctr &gt;= 100) {
+    //static QEvt const SerDisplayEvt = {SER_DISPLAY_SIG, 0};
+    ((TimerEvt *) e)-&gt;clk_ctr = 0;
+    BSP_display();                                  /* show the display */
+    printf(&quot;: &quot;);
+    //QActive_postFIFO((QActive *) me, &amp;SerDisplayEvt);
+}</action>
+      <tran_glyph conn="7,24,3,-1,9">
+       <action box="2,-2,6,2"/>
       </tran_glyph>
      </tran>
      <state name="Negated1">
@@ -56,25 +70,25 @@ return Q_SUPER(&amp;Calc_On);</action>
         <action box="-4,-2,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="CE" target="../../6/5">
+      <tran trig="CE" target="../../7/5">
        <action>BSP_clear();</action>
        <tran_glyph conn="35,63,2,3,4,-4,-42,2">
         <action box="-4,2,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_0" target="../../5/3">
+      <tran trig="DIGIT_0" target="../../6/3">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="41,63,2,2,2,15,-2">
         <action box="0,0,7,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../5/4">
+      <tran trig="DIGIT_1_9" target="../../6/4">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="39,63,2,2,4,29,-4">
         <action box="0,2,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../5/5">
+      <tran trig="POINT" target="../../6/5">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="37,63,2,2,6,41,-6">
         <action box="0,4,6,2"/>
@@ -89,7 +103,7 @@ return Q_SUPER(&amp;Calc_On);</action>
       <entry>BSP_message(&quot;operand2-ENTRY;&quot;);
 display_state_trans(DS_OP);</entry>
       <exit>BSP_message(&quot;operand2-EXIT;&quot;);</exit>
-      <tran trig="CE" target="../../9">
+      <tran trig="CE" target="../../10">
        <action>BSP_clear();
 display_state_trans(DS_OP1);</action>
        <tran_glyph conn="54,111,2,0,2,-44,-68,9,4">
@@ -97,7 +111,7 @@ display_state_trans(DS_OP1);</action>
        </tran_glyph>
       </tran>
       <tran trig="OPER">
-       <choice target="../../../9">
+       <choice target="../../../10">
         <guard brief="isValid">BSP_eval(me-&gt;operand1, me-&gt;operator, BSP_get_value())</guard>
         <action>me-&gt;operand1 = BSP_get_value();
 me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;
@@ -106,7 +120,7 @@ display_state_trans(DS_OP2);</action>
          <action box="-7,-2,10,2"/>
         </choice_glyph>
        </choice>
-       <choice target="../../../7">
+       <choice target="../../../8">
         <guard>else</guard>
         <choice_glyph conn="57,117,5,0,37,-20,5,3">
          <action box="2,-2,10,2"/>
@@ -117,13 +131,13 @@ display_state_trans(DS_OP2);</action>
        </tran_glyph>
       </tran>
       <tran trig="EQUALS">
-       <choice target="../../../6/6">
+       <choice target="../../../7/6">
         <guard brief="isValid">BSP_eval(me-&gt;operand1, me-&gt;operator, BSP_get_value())</guard>
         <choice_glyph conn="97,95,4,2,-65">
          <action box="0,-3,10,2"/>
         </choice_glyph>
        </choice>
-       <choice target="../../../7">
+       <choice target="../../../8">
         <guard>else</guard>
         <choice_glyph conn="97,95,5,0,5,5">
          <action box="1,0,10,2"/>
@@ -217,13 +231,13 @@ display_state_trans(DS_OP2);</action>
      <state name="Operand1">
       <entry>BSP_message(&quot;operand1-ENTRY;&quot;);</entry>
       <exit>BSP_message(&quot;operand1-EXIT;&quot;);</exit>
-      <tran trig="CE" target="../../6/5">
+      <tran trig="CE" target="../../7/5">
        <action>BSP_clear();</action>
        <tran_glyph conn="85,52,1,1,3,-27,-13">
         <action box="0,-2,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="OPER" target="../../9">
+      <tran trig="OPER" target="../../10">
        <action>me-&gt;operand1 = BSP_get_value();
 me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;
 display_state_trans(DS_OP1);</action>
@@ -231,7 +245,7 @@ display_state_trans(DS_OP1);</action>
         <action box="-36,0,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="EQUALS" target="../../6/6">
+      <tran trig="EQUALS" target="../../7/6">
        <tran_glyph conn="70,71,2,2,2,25,-43">
         <action box="0,0,6,2"/>
        </tran_glyph>
@@ -326,20 +340,20 @@ display_state_trans(DS_OP1);</action>
         <action box="0,-2,6,2"/>
        </initial_glyph>
       </initial>
-      <tran trig="DIGIT_0" target="../../5/3">
+      <tran trig="DIGIT_0" target="../../6/3">
        <action>BSP_clear();</action>
        <tran_glyph conn="56,32,2,0,17">
         <action box="0,1,11,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../5/4">
+      <tran trig="DIGIT_1_9" target="../../6/4">
        <action>BSP_clear();
 BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="65,32,2,0,17">
         <action box="0,1,11,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../5/5">
+      <tran trig="POINT" target="../../6/5">
        <action>BSP_clear();
 BSP_insert((int)'0');
 BSP_insert((int)'.');</action>
@@ -347,7 +361,7 @@ BSP_insert((int)'.');</action>
         <action box="0,1,8,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="OPER" target="../../9">
+      <tran trig="OPER" target="../../10">
        <action>me-&gt;operand1 = BSP_get_value();
 me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
        <tran_glyph conn="22,32,2,0,17">
@@ -359,7 +373,7 @@ me-&gt;operator = ((CalcEvt const *)e)-&gt;key_code;</action>
 //clear();</entry>
        <exit>BSP_message(&quot;begin-EXIT;&quot;);</exit>
        <tran trig="OPER">
-        <choice target="../../../../3">
+        <choice target="../../../../4">
          <guard brief="-">(((CalcEvt const *)e) -&gt;key_code == KEY_MINUS)</guard>
          <choice_glyph conn="38,37,4,0,12">
           <action box="0,1,6,3"/>
@@ -428,25 +442,25 @@ return Q_SUPER(&amp;Calc_On);</action>
         <action box="-4,-2,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="CE" target="../../9">
+      <tran trig="CE" target="../../10">
        <action>BSP_clear();
 display_state_trans(DS_OP1);</action>
        <tran_glyph conn="17,103,2,0,3,-6,-59,7,2">
         <action box="-6,1,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_0" target="../../4/4">
+      <tran trig="DIGIT_0" target="../../5/4">
        <tran_glyph conn="23,103,2,2,3,33,-4">
         <action box="0,1,7,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../4/5">
+      <tran trig="DIGIT_1_9" target="../../5/5">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="21,103,2,2,5,48,-6">
         <action box="0,3,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../4/3">
+      <tran trig="POINT" target="../../5/3">
        <action>BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="19,103,2,2,7,59,-8">
         <action box="0,5,6,2"/>
@@ -462,7 +476,7 @@ display_state_trans(DS_OP1);</action>
 BSP_insert(me-&gt;operator);</entry>
       <exit>BSP_message(&quot;opEntered-EXIT;&quot;);</exit>
       <tran trig="OPER">
-       <choice target="../../../8">
+       <choice target="../../../9">
         <guard brief="-">(((CalcEvt const *)e) -&gt;key_code == KEY_MINUS)</guard>
         <action>BSP_clear();</action>
         <choice_glyph conn="17,69,4,0,20">
@@ -481,20 +495,20 @@ return Q_SUPER(&amp;Calc_On);</action>
         <action box="-4,1,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_0" target="../../4/4">
+      <tran trig="DIGIT_0" target="../../5/4">
        <action>BSP_clear();</action>
        <tran_glyph conn="19,63,2,0,16,37,9">
         <action box="0,14,6,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="DIGIT_1_9" target="../../4/5">
+      <tran trig="DIGIT_1_9" target="../../5/5">
        <action>BSP_clear();
 BSP_insert(((CalcEvt const *)e)-&gt;key_code);</action>
        <tran_glyph conn="21,63,2,0,14,44,11">
         <action box="0,12,9,2"/>
        </tran_glyph>
       </tran>
-      <tran trig="POINT" target="../../4/3">
+      <tran trig="POINT" target="../../5/3">
        <action>BSP_clear();
 BSP_insert((int)'0');
 BSP_insert((int)'.');</action>
@@ -524,7 +538,8 @@ BSP_exit();</entry>
   </class>
   <operation name="Calc_ctor" type="void" visibility="0x00" properties="0x00">
    <parameter name="me" type="Calc*"/>
-   <code>QActive_ctor(&amp;me-&gt;super, (QStateHandler)&amp;Calc_initial);</code>
+   <code>QActive_ctor(&amp;me-&gt;super, (QStateHandler)&amp;Calc_initial);
+QTimeEvt_ctor(&amp;BaseTimer.super, TICK_SIG);</code>
   </operation>
   <directory name=".\src">
    <file name="main.c" codec="UTF-8">
@@ -591,10 +606,11 @@ static Calc l_calc;                             /* instantiate Calculator2 */
 //..........................................................................*/
 int main() {
     QF_init();    /* initialize the framework and the underlying RT kernel */
-    Calc_ctor(&amp;l_calc);    /* explicitly instantiate the calculator object */
-    QF_poolInit((void *) &amp;l_eventQueue, sizeof(l_eventQueue), sizeof(l_eventQueue[0]));
-    QActive_start((QActive * ) &amp; l_calc, 1, l_eventQueue, Q_DIM(l_eventQueue), (void *) 0, 0, (QEvt *) 0);
     BSP_Init(&amp;l_calc);
+    Calc_ctor(&amp;l_calc);    /* explicitly instantiate the calculator object */
+    QF_poolInit((void *) &amp;l_eventQueue, sizeof(l_eventQueue), sizeof(QEvt));
+    QActive_start((QActive * ) &amp; l_calc, 1, l_eventQueue, Q_DIM(l_eventQueue), (void *) 0, 0, (QEvt *) 0);
+
 
 
     printf(&quot;Calculator example, QEP version: %s\n&quot;
@@ -642,15 +658,18 @@ enum CalcSignals {
     EQUALS_SIG,
     OFF_SIG,
     PERCENT_SIG,
+    TICK_SIG,
 
     MAX_CALC1_SIG
 };
-
 
 $declare(CalcHSM::Calc)
 $declare(CalcHSM::Calc_ctor)
 
 $declare(Events::CalcEvt)
+$declare(Events::TimerEvt)
+
+static TimerEvt BaseTimer;
 
 #endif</text>
    </file>
@@ -659,6 +678,9 @@ $declare(Events::CalcEvt)
  <package name="Events" stereotype="0x01">
   <class name="CalcEvt" superclass="qpc::QEvt">
    <attribute name="key_code" type="uint8_t" visibility="0x00" properties="0x00"/>
+  </class>
+  <class name="TimerEvt" superclass="qpc::QTimeEvt">
+   <attribute name="clk_ctr" type="uint8_t" visibility="0x00" properties="0x00"/>
   </class>
  </package>
 </model>

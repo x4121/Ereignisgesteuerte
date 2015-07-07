@@ -4,19 +4,24 @@
 void BSP_C(void);
 void BSP_CE(void);
 
-static short AD_last;                   /* Last converted value               */
+static short changed = 0;
 
 /* A/D IRQ: Executed when A/D Conversion is done                              */
 __irq void ADC_IRQHandler(void) {
-    short current = (AD0DR0 >> 6) & 0x3FF;    /* Read Conversion Result             */
-    if (current < AD_last - 50) {
-        AD_last = current;
-        BSP_C();
-    } else if (current > AD_last + 50) {
-        AD_last = current;
-        BSP_CE();
+    short current = (short) ((AD0DR0 >> 6) & 0x3FF);    /* Read Conversion Result             */
+    if (current > 0x300) {
+        if (!changed) {
+            changed = 1;
+            BSP_C();
+        }
+    } else if (current < 0x100) {
+        if (!changed) {
+            changed = 1;
+            BSP_CE();
+        }
+    } else if (current > 0x100+50 && current < 0x300-50) {
+        changed = 0;
     }
-
     VICVectAddr = 0;                    /* Acknowledge Interrupt              */
 }
 
@@ -32,9 +37,6 @@ void ADC_Init(void) {
     //VICIntEnClr = (1 << 18);                   /* Disable ADC Interrupt        */
 }
 
-short AD_Get_Val(void) {
-    return (AD_last);
-}
 
 void ADC_IRQ_ENABLE(void) {
 		VICIntEnable = (1 << 18);                  /* Enable ADC Interrupt        */

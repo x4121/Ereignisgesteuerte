@@ -78,11 +78,12 @@ static Calc l_calc;                             /* instantiate Calculator2 */
 //..........................................................................*/
 int main() {
     QF_init();    /* initialize the framework and the underlying RT kernel */
-
-    Calc_ctor(&l_calc);    /* explicitly instantiate the calculator object */
-    QF_poolInit((void *) &l_eventQueue, sizeof(l_eventQueue), sizeof(l_eventQueue[0]));
-    QActive_start((QActive * ) & l_calc, 1, l_eventQueue, Q_DIM(l_eventQueue), (void *) 0, 0, (QEvt *) 0);
     BSP_Init(&l_calc);
+    Calc_ctor(&l_calc);    /* explicitly instantiate the calculator object */
+    QF_poolInit((void *) &l_eventQueue, sizeof(l_eventQueue), sizeof(QEvt));
+    QActive_start((QActive * ) & l_calc, 1, l_eventQueue, Q_DIM(l_eventQueue), (void *) 0, 0, (QEvt *) 0);
+
+
 
     printf("Calculator example, QEP version: %s\n"
            "Press '0' .. '9'     to enter a digit\n"
@@ -97,5 +98,7 @@ int main() {
            "Press <Esc>          to quit.\n\n",
            QEP_getVersion());
 
-        CalcEvt e;                                      /* Calculator event */
+    QF_run();                                     /* run the QF application */
+}
+
 

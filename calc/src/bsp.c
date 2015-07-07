@@ -37,6 +37,7 @@ static struct display_t {
 static char l_display[DISP_WIDTH + 1];            /* the calculator display */
 static int l_len;                        /* number of displayed characters */
 static Calc *me;
+static CalcEvt e;                                      /* Calculator event */
 
 void delay(int val) {
     int i;
@@ -297,7 +298,6 @@ void QF_onStartup(void) {
 }
 
 void BSP_onKeyboardInput(int buf) {
-    CalcEvt e;                                      /* Calculator event */
     e.key_code = (uint8_t) buf;             /* get a char with echo */
     if (e.key_code != 0) {
         switch (e.key_code) {
@@ -360,8 +360,8 @@ void BSP_onKeyboardInput(int buf) {
 
         if (me && ((QEvent * ) & e)->sig != 0) {           /* valid event generated? */
             QActive_postFIFO((QActive *)me, (QEvent * ) & e); /* dispatch event */
-            BSP_display();                                  /* show the display */
-            printf(": ");
+      //      BSP_display();                                  /* show the display */
+      //      printf(": ");
         }
     }
 }
